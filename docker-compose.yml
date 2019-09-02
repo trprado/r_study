@@ -1,0 +1,11 @@
+version: '3'
+services:
+    rstudio:
+        image: rocker/rstudio
+        volumes:
+            - $HOME/Dev/docker/rstudio:/home/rstudio
+        ports:
+            - '8787:8787'
+        environment:
+            - PASSWORD=rstudio
+            - DISABLE_AUTH=true

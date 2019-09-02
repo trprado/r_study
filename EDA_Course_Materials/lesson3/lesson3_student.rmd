@@ -1,0 +1,425 @@
+Lesson 3
+========================================================
+
+***
+
+### What to Do First?
+**Notes:** Verificar a pasta que se encontra, caso necessário trocar a pasta e listar os arquivos.
+
+```{r Show directory and change location if necessary}
+getwd()
+list.files()
+```
+
+***
+
+### Pseudo-Facebook User Data
+**Notes:** Carregar os dados em uma variável.
+
+```{r Pseudo-Facebook User Data}
+df <- read.delim('pseudo_facebook.tsv')
+head(df)
+```
+
+***
+
+### Histogram of Users' Birthdays
+Notes:
+
+```{r Histogram of Users\' Birthdays}
+install.packages('ggplot2')
+library(ggplot2)
+```
+
+***
+
+#### What are some things that you notice about this histogram?
+**Response:** O dia primeiro existem muito mais aniversários do que demais dias, e o dia 31 existem muito menos. Erá esperado que estivesse mais próximos todos os valores.
+
+***
+
+### Moira's Investigation
+Notes:
+
+***
+
+### Estimating Your Audience Size
+Notes:
+
+***
+
+#### Think about a time when you posted a specific message or shared a photo on Facebook. What was it?
+**Response:** A foto de um lanche artesanal que fizemos entre amigos.
+
+#### How many of your friends do you think saw that post?
+**Response:** 10
+
+#### Think about what percent of your friends on Facebook see any posts or comments that you make in a month. What percent do you think that is?
+**Response:** 60%
+
+***
+
+### Perceived Audience Size
+Notes:
+
+***
+### Faceting
+Notes:
+
+```{r Faceting, fig.align='center', fig.width=15, fig.height=15}
+ggplot(data=df, aes(x=dob_day)) +
+  geom_histogram() +
+  scale_x_continuous(breaks=1:31) +
+  facet_wrap(~dob_month, ncol=3)
+```
+
+#### Let’s take another look at our plot. What stands out to you here?
+Response:
+
+***
+
+### Be Skeptical - Outliers and Anomalies
+Notes:
+
+***
+
+### Moira's Outlier
+Notes:
+#### Which case do you think applies to Moira’s outlier?
+Response:
+
+***
+
+### Friend Count
+Notes:
+
+#### What code would you enter to create a histogram of friend counts?
+
+```{r Friend Count}
+# qplot(data=df, x=friend_count)
+ggplot(aes(x=friend_count), data=df) +
+  geom_histogram()
+```
+
+#### How is this plot similar to Moira's first plot?
+**Response:** Existe uma grande quantidade de pessoas com poucos amigos sendo a maioria com zero amigos.
+
+***
+
+### Limiting the Axes
+Notes:
+
+```{r Limiting the Axes}
+# qplot(x = friend_count, data = df, xlim = c(1,1000)) + labs(y = 'count')
+ggplot(aes(x = friend_count), data = df) + 
+  geom_histogram() + 
+  scale_x_continuous(limits = c(1,1000))
+```
+
+### Exploring with Bin Width
+**Notes:** A grande maioria dos valores escolhidos eram entre 20, 50 e 100
+
+***
+
+### Adjusting the Bin Width
+Notes:
+
+```{r}
+ggplot(aes(x=friend_count), data=df) +
+  geom_histogram(binwidth=50) +
+  scale_x_continuous(limits=c(1,1000), breaks=seq(0,1000,50))
+```
+
+
+### Faceting Friend Count
+```{r Faceting Friend Count, fig.align='center', fig.asp=.30, fig.width=15}
+# What code would you add to create a facet the histogram by gender?
+# Add it to the code below.
+# qplot(x = friend_count, data = df, binwidth = 50) +
+#   scale_x_continuous(limits = c(0, 1000),
+#                      breaks = seq(0, 1000, 50)) +
+#   facet_grid(~gender)
+ggplot(aes(x = friend_count), data = df) +
+  geom_histogram(binwidth = 50) +
+  scale_x_continuous(limits = c(1,1000),
+                     breaks = seq(0,1000,50)) +
+  facet_grid(~gender)
+```
+
+***
+
+### Omitting NA Values
+Notes:
+
+```{r Omitting NA Values, fig.height = 10, fig.width = 15, fig.asp = .30, fig.align = "center"}
+ggplot(aes(x = friend_count), data = subset(df, !is.na(gender))) +
+  geom_histogram(binwidth = 50) +
+  scale_x_continuous(limits = c(1, 1000),
+                     breaks = seq(0, 1000, 50)) +
+  facet_grid(~gender)
+```
+
+***
+
+### Statistics 'by' Gender
+Notes:
+
+```{r Statistics \'by\' Gender}
+table(df$gender)
+by(df$friend_count, df$gender, summary)
+```
+```{r}
+fq <- by(df$friend_count, df$gender, summary)
+round(fq$female[3]) -  round(fq$male[3])
+```
+
+
+#### Who on average has more friends: men or women?
+**Response:** Mulheres em média tem mais amigos.
+
+#### What's the difference between the median friend count for women and men?
+**Response:** 22
+
+#### Why would the median be a better measure than the mean?
+**Response:** A mediana é um valor mais robusto, como os grupos tem quantidades diferentes, uma contagem maior de usuários pode modificar a média de amigos.
+
+***
+
+### Tenure
+Notes:
+
+```{r Tenure}
+ggplot(aes(x = tenure), data = df) +
+  geom_histogram(color = 'black', fill = 'orange')
+```
+
+***
+
+#### How would you create a histogram of tenure by year?
+
+```{r Tenure Histogram by Year}
+ggplot(aes(x = tenure/365), data = df) +
+  geom_histogram(binwidth = .25, color = 'black', fill = 'orange') +
+  scale_x_continuous(limits = c(0, 7),
+                     breaks = seq(0, 7, 1))
+```
+
+***
+
+### Labeling Plots
+Notes:
+
+```{r Labeling Plots}
+ggplot(aes(x = tenure/365), data = df) +
+  geom_histogram(binwidth = .25, color = 'black', fill = 'orange') + 
+  scale_x_continuous(limits = c(0, 7),
+                     breaks = seq(0, 7, 1)) +
+  ylab('Number of users in sample') +
+  xlab('Number of years using facebook')
+```
+
+***
+
+### User Ages
+Notes:
+
+```{r}
+summary(df$age)
+```
+
+
+```{r User Ages}
+ggplot(aes(x = age), data = df) +
+  geom_histogram(binwidth = 1, color = 'black', fill = 'orange') +
+  scale_x_continuous(limits = c(13, 113),
+                     breaks = seq(13, 113, 5)) +
+  xlab('Idade dos usuários do Facebook') +
+  ylab('Contagem de individuos do Facebook')
+```
+
+#### What do you notice?
+**Response:** Não existem contagem de pessoas a baixo dos 13 anos e existe contagens altas de pessoas com idades avançadas o que informa outliers além de outros picos.
+
+***
+
+### The Spread of Memes
+Notes:
+
+***
+
+### Lada's Money Bag Meme
+Notes:
+
+***
+
+### Transforming Data
+Notes:
+
+```{r}
+install.packages("gridExtra")
+library(gridExtra)
+```
+
+
+```{r Friends count using original log10 and sqrt, fig.align='center', fig.asp=.50, fig.width=15, fig.height=15}
+p1 <- ggplot(aes(x = friend_count), data = df) +
+  geom_histogram(binwidth = 30, color = 'black', fill = 'blue') +
+  scale_x_continuous(limits = c(1, 1000),
+                     breaks = seq(0, 1000, 100)) +
+  ylab('Count facebook users') +
+  xlab('Friends normal count')
+
+# Log_10
+df$log_fc <- log10(df$friend_count + 1)
+summary(df$log_fc)
+
+p2 <- ggplot(aes(x = log_fc), data = df) +
+  geom_histogram(binwidth = .25, color = 'black', fill = 'green') +
+  scale_x_continuous(limits = c(0, 4),
+                     breaks = seq(0, 4, 0.5)) +
+  ylab('') +
+  xlab('Friends log_10 count')
+
+df <- subset(df, select = -log_fc)
+
+# SQRT
+df$sqr_fc <- sqrt(df$friend_count)
+summary(df$sqr_fc)
+p3 <- ggplot(aes(x = sqr_fc), data = df) +
+  geom_histogram(binwidth = 1, color = 'black', fill = 'red') +
+  scale_x_continuous(limits = c(0, 71),
+                     breaks = seq(0, 71, 5)) +
+  ylab('') +
+  xlab('Friends sqrt count')
+
+df <- subset(df, select = -sqr_fc)
+
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+
+```{r Friends count using original log10 and sqrt 2, fig.align='center', fig.asp=.50, fig.width=15, fig.height=15}
+p1 <- ggplot(aes(x = friend_count), data = df) +
+  geom_histogram(binwidth = 30, color = 'black', fill = 'blue') +
+  ylab('Count facebook users') +
+  xlab('Friends normal count')
+
+# Log_10
+p2 <- ggplot(aes(x = log10(friend_count)), data = df) +
+  geom_histogram(binwidth = .25, color = 'black', fill = 'green') +
+  ylab('') +
+  xlab('Friends log_10 count')
+
+# SQRT
+p3 <- ggplot(aes(x = sqrt(friend_count)), data = df) +
+  geom_histogram(binwidth = 1, color = 'black', fill = 'red') +
+  ylab('') +
+  xlab('Friends sqrt count')
+
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+***
+
+### Add a Scaling Layer
+Notes:
+
+```{r Add a Scaling Layer}
+p1 <- ggplot(aes(x = friend_count), data = df) + geom_histogram()
+p2 <- p1 + scale_x_log10()
+p3 <- p1 + scale_x_sqrt()
+grid.arrange(p1, p2, p3, ncol=1)
+```
+
+***
+
+
+### Frequency Polygons
+
+```{r Frequency Polygons}
+ggplot(aes(x = www_likes, y = ..density..), data = subset(df, !is.na(gender))) +
+  geom_freqpoly(aes(color = gender)) +
+  scale_x_continuous() +
+  scale_x_log10() +
+  xlab('Like counts') +
+  ylab('Percentage of users with that like counts')
+```
+
+***
+
+### Likes on the Web
+Notes:
+
+```{r Likes on the Web}
+by(df$www_likes, df$gender, sum)
+```
+
+
+***
+
+### Box Plots
+Notes:
+
+```{r Box Plots}
+ggplot(aes(x = gender, y = friend_count),
+       data = subset(df, !is.na(gender))) +
+  geom_boxplot() +
+  coord_cartesian()
+```
+
+#### Adjust the code to focus on users who have friend counts between 0 and 1000.
+
+```{r}
+ggplot(aes(x = gender, y = friend_count),
+       data = subset(df, !is.na(gender))) +
+  geom_boxplot() +
+  coord_cartesian(ylim = c(0, 1000))
+```
+
+***
+
+### Box Plots, Quartiles, and Friendships
+Notes:
+
+```{r Box Plots, Quartiles, and Friendships}
+ggplot(aes(x = gender, y = friendships_initiated),
+       data = subset(df, !is.na(gender))) +
+  geom_boxplot() +
+  coord_cartesian(ylim = c(0, 150))
+```
+
+#### On average, who initiated more friendships in our sample: men or women?
+**Response:** Mulheres
+#### Write about some ways that you can verify your answer.
+Response:
+```{r Friend Requests by Gender}
+by(df$friendships_initiated, df$gender, summary)
+```
+
+**Response:** Se olharmos para a mediana ou para o primeiro e terceiro quartil verificamos que mulheres tem um maior número de pedidos.
+
+***
+
+### Getting Logical
+Notes:
+
+```{r Getting Logical}
+summary(df$mobile_likes)
+summary(df$mobile_likes > 0)
+df$mobile_check_in <- NA
+df$mobile_check_in <- ifelse(df$mobile_likes > 0, 1, 0)
+df$mobile_check_in <- factor(df$mobile_check_in)
+round(summary(df$mobile_check_in) / length(df$mobile_check_in) * 100)
+```
+
+**Response:** 65%
+
+***
+
+### Analyzing One Variable
+**Reflection:** Aprendi a utilizar várias funcionalidades da linguagem R e a trabalhar com o rstudio, também aprendi a fazer analises usando ggplot, analisando valores de variáveis e dividindo em grupos distintos. Também aprendi a modificar o gráfico de forma que a resposta seja visualmente mais compreensível. 
+
+***
+
+Click **KnitHTML** to see all of your hard work and to have an html
+page of this lesson, your answers, and your notes!

@@ -1,0 +1,14 @@
+"0","```r
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+
+df_wine$category <- cut(df_wine$quality, breaks = c(0, 3, 6, 8, 10), labels = c('baixa qualidade', 'razoavel qualidade', 'boa qualidade', 'excepcional qualidade'))
+
+write.csv(df_wine,'wine_quality_clean.csv')
+
+str(df_wine)
+
+summary(df_wine)
+
+df_wine[1:5,]
+```"

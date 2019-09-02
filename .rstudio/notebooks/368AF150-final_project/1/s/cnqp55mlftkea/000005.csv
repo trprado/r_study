@@ -1,0 +1,6 @@
+"0","ggplot(data = df_comp,"
+"0","       aes(x = price)) +"
+"0","    geom_histogram(aes(y =..density..), binwidth = 0.05) +"
+"0","    geom_density(aes(y =..density..)) +"
+"0","    scale_x_log10(breaks = seq(0, 5500, 500)) +"
+"0","    ggtitle('Figura 4. Distribuição de densidade do log10(preço) entre 1993 até 1995')"

@@ -1,0 +1,10 @@
+"0","```r
+
+library(GGally)
+library(scales)
+library(memisc)
+
+# ggpairs(df_wine,
+#         lower = list(continuous = wrap(\"points\", shape = I('.'))),
+#         upper = list(combo = wrap(\"box\", outlier.shape = I('.'))))
+```"

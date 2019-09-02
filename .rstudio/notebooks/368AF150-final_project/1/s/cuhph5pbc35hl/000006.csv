@@ -1,0 +1,105 @@
+"0","# remoção da variável cd_dummy (não significativa)"
+"0","m9 <- update(m8, ~ . -cd_dummy, data = dados)"
+"0",""
+"0","mtable(m9)"
+"1","
+Calls:
+"
+"1","m9"
+"1",""
+"1",": "
+"1","lm(formula = log(price) ~ speed + ram + hd + screen + premium_dummy, 
+"
+"1","    data = dados)
+"
+"1","
+"
+"1","==============================
+"
+"1",""
+"1","  (Intercept)       6.803***  
+"
+"1",""
+"1","                   (0.036)    
+"
+"1",""
+"1","  speed             0.003***  
+"
+"1",""
+"1","                   (0.000)    
+"
+"1",""
+"1","  ram               0.038***  
+"
+"1",""
+"1","                   (0.001)    
+"
+"1",""
+"1","  hd               -0.000***  
+"
+"1",""
+"1","                   (0.000)    
+"
+"1",""
+"1","  screen            0.048***  
+"
+"1",""
+"1","                   (0.002)    
+"
+"1",""
+"1","  premium_dummy    -0.180***  
+"
+"1",""
+"1","                   (0.007)    
+"
+"1",""
+"1","------------------------------
+"
+"1",""
+"1","  R-squared         0.544     
+"
+"1",""
+"1","  N              6195         
+"
+"1",""
+"1","==============================
+"
+"1",""
+"1","  Significance:   
+"
+"1",""
+"1","                *** = p < 0.001;   
+"
+"1",""
+"1","                ** = p < 0.01;   
+"
+"1",""
+"1","                * = p < 0.05  
+"
+"0","ks.test(rstudent(m9), pnorm, mean(rstudent(m9)), sd(rstudent(m9)))"
+"2","ties should not be present for the Kolmogorov-Smirnov test"
+"1","
+"
+"1","	One-sample Kolmogorov-Smirnov test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","rstudent(m9)"
+"1",""
+"1","
+"
+"1","D = 0.011308, p-value = 0.4066"
+"1","
+"
+"1","alternative hypothesis: "
+"1","two-sided"
+"1",""
+"1","
+"
+"1","
+"
+"0","# plot(fitted.values(m9), residuals(m9))"
+"0","# abline(h=0, col=""red"")"

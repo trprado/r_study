@@ -1,0 +1,512 @@
+#Be sure you’ve loaded the library memisc and have m5 saved as an object in your workspace.
+thisDiamond = data.frame(carat = 1.00, cut = "V.Good",
+color = "I", clarity="VS1")
+modelEstimate = predict(m5, newdata = thisDiamond,
+interval="prediction", level = .95)
+exp(modelEstimate)
+diamondsurl = getBinaryURL("https://raw.githubusercontent.com/SolomonMg/diamonds-data/master/BigDiamonds.Rda")
+diamondsbig
+load(rawConnection(diamondsurl))
+diamondsbig
+diamondsbig$logprice <- log(diamondsbig$price)
+m1 <- lm(logprice ~ I(carat^(1/3)), data = subset(diamondsbig, price < 10000 & cert == 'GIA'))
+m2 <- update(m1, ~ . + carat)
+m3 <- update(m2, ~ . + cut)
+m4 <- update(m3, ~ . + color)
+m5 <- update(m4, ~ . + clarity)
+mtable(m1, m2, m3, m4, m5)
+#Be sure you’ve loaded the library memisc and have m5 saved as an object in your workspace.
+thisDiamond = data.frame(carat = 1.00, cut = "V.Good",
+color = "I", clarity="VS1")
+modelEstimate = predict(m5, newdata = thisDiamond,
+interval="prediction", level = .95)
+exp(modelEstimate)
+dat = data.frame(m4$model, m4$residuals)
+with(dat, sd(m4.residuals))
+with(subset(dat, carat > .9 & carat < 1.1), sd(m4.residuals))
+dat$resid <- as.numeric(dat$m4.residuals)
+ggplot(aes(y = resid, x = round(carat, 2)), data = dat) +
+geom_line(stat = "summary", fun.y = sd)
+?ppredict
+?predict
+modelEstimate
+exp(modelEstimate)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+load(diamonds)
+diamonds
+data(diamonds)
+diamonds
+data(diamonds)
+diamonds
+data(diamonds)
+diamonds
+str(diamonds)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```{r diamonds}
+data(diamonds)
+str(diamonds)
+dia <- data(diamonds)
+str(diamonds)
+getwd()
+setwd('../../final_project')
+getwd()
+list.files()
+df_red <- read.csv('wine_quality_reds.csv')
+wine
+df_red <- read.csv('wine_quality_reds.csv')
+df_red
+output:
+html_document:
+toc: true
+fig_width: 10
+fig_height: 10
+fig_caption: true
+df_print: kable
+rows.print: 5
+install.packages("kableExtra")
+install.packages("kableExtra")
+source('~/.active-rstudio-document', echo=TRUE)
+kable(df_red[1:5,])
+library(knitr)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, rows.print = 5, result = 'asis')
+df_red <- read.csv('wine_quality_reds.csv')
+kable(df_red[1:5,])
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, rows.print = 5)
+library(knitr)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, rows.print = 5)
+```{r wines}
+df_red <- read.csv('wine_quality_reds.csv')
+kable(df_red[1:5,])
+kable(df_red[1:5,], format = 'markdown')
+kable(df_red[1:5,], format = 'markdown')
+kable(df_red[1:5,], format = 'pandoc')
+install.packages("kableExtra")
+install.packages("xml2")
+install.packages("kableExtra")
+library(knitr)
+library(kableExtra)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, rows.print = 5)
+df_red <- read.csv('wine_quality_reds.csv')
+kable(df_red[1:5,], format = 'pandoc')
+kable(df_red[1:5,], format = 'pandoc') %>% kable_styling()
+kable(df_red[1:5,], format = 'pandoc') %>% kable_styling(bootstrap_options = c("striped", "hover"))
+kable(df_red[1:5,], format = 'html') %>% kable_styling(bootstrap_options = c("striped", "hover"))
+kable(df_red[1:5,], format = 'html') %>% kable_styling()
+kable(df_red[1:5, 1:7], format = 'html') %>% kable_styling()
+kable(df_red[1:5,], format = 'html') %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+kable(df_red[1:5,], format = 'html') %>% kable_styling(bootstrap_options = c("condensed", "responsive"))
+str(df_red)
+library(diplyr)
+library(tidyr)
+df_red <- tbl_df(subset(df_red, select = -X))
+library(diplyr)
+library(tidyr)
+library(diplyr)
+library(dplyr)
+library(tidyr)
+df_red <- tbl_df(subset(df_red, select = -X))
+str(df_red)
+kable(df_red[1:5,], format = 'html') %>% kable_styling(bootstrap_options = c("condensed", "responsive"))
+kable(df_red[1:5,], format = 'html')
+names(df_red)
+underline_names <- vector(fixed_acitidy = "fixed.acidity", volatile_acidity = "volatile.acidity", citric_acid = "citric.acid", residual_sugar = "residual.sugar", free_sulfur_dioxide = "free.sulfur.dioxide", total_sulfur_dioxide = "total.sulfur.dioxide")
+underline_names <- c(fixed_acitidy = "fixed.acidity", volatile_acidity = "volatile.acidity", citric_acid = "citric.acid", residual_sugar = "residual.sugar", free_sulfur_dioxide = "free.sulfur.dioxide", total_sulfur_dioxide = "total.sulfur.dioxide")
+underline_names
+library(janitor)
+install.packages("janitor")
+library(janitor)
+df_red
+?janitor
+janitor(df_red)
+clean_names(df_red)
+df_red
+df_red <- clean_names(df_red)
+kable(df_red[1:5,], format = 'html')
+output:
+html_document:
+toc: true
+fig_width: 10
+fig_height: 10
+fig_caption: true
+df_print: paged
+df_red
+df_red <- rename(df_red, pH = 'p_H')
+df_red <- rename(df_red, pH = 'p_h')
+df_red
+df_red <- rename(df_red, ph = 'p_h')
+df_red <- read.csv('wine_quality_reds.csv')
+df_red <- tbl_df(subset(df_red, select = -X))
+str(df_red)
+df_red <- clean_names(df_red)
+df_red <- rename(df_red, ph = 'p_h')
+df_red
+df_white <- read.csv('wine_quality_whites.csv')
+df_white <- tbl_df(df_white)
+df_white
+df_white <- read.csv('wine_quality_whites.csv')
+df_white <- tbl_df(subset(df_white, select = -X))
+str(df_white)
+df_white <- clean_names(df_white)
+df_white <- rename(df_white, ph = 'p_h')
+df_white
+df_white$type <- 'white'
+df_white
+df_red$type <- 'red'
+df_red
+df_wine <- bind_rows(df_red, df_white)
+str(df_wine)
+df_wine
+df_red$type <- 'red'
+df_red <- read.csv('wine_quality_reds.csv')
+df_red <- tbl_df(subset(df_red, select = -X))
+str(df_red)
+df_red <- clean_names(df_red)
+df_red <- rename(df_red, ph = 'p_h')
+df_red$type <- 'red'
+df_red
+df_white <- read.csv('wine_quality_whites.csv')
+df_white <- tbl_df(subset(df_white, select = -X))
+str(df_white)
+df_white <- clean_names(df_white)
+df_white <- rename(df_white, ph = 'p_h')
+df_white$type <- 'white'
+df_white
+df_white <- read.csv('wine_quality_whites.csv')
+df_white <- tbl_df(subset(df_white, select = -X))
+str(df_white)
+df_white <- clean_names(df_white)
+df_white <- rename(df_white, ph = 'p_h')
+df_white$type <- factor('white')
+df_white
+df_red$type <- factor('red')
+df_red
+df_red <- read.csv('wine_quality_reds.csv')
+df_red <- tbl_df(subset(df_red, select = -X))
+str(df_red)
+df_red <- clean_names(df_red)
+df_red <- rename(df_red, ph = 'p_h')
+df_red$type <- factor('red')
+df_red
+df_wine <- bind_rows(df_red, df_white)
+df_red <- read.csv('wine_quality_reds.csv')
+df_red <- tbl_df(subset(df_red, select = -X))
+str(df_red)
+df_red <- clean_names(df_red)
+df_red <- rename(df_red, ph = 'p_h')
+df_red$type <- 'red'
+df_red
+df_white <- read.csv('wine_quality_whites.csv')
+df_white <- tbl_df(subset(df_white, select = -X))
+str(df_white)
+df_white <- clean_names(df_white)
+df_white <- rename(df_white, ph = 'p_h')
+df_white$type <- 'white'
+df_white
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+str(df_wine)
+df_wine
+table(df_wine$type)
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+str(df_wine)
+table(df_wine$type)
+df_wine
+knitr::kable(df_wine[1:5,], caption = "A Knitr table.", floating.environment="sidewaystable")
+knitr::kable(df_wine[1:4,], caption = "A Knitr table.", floating.environment="sidewaystable")
+knitr::kable(df_wine[1:4,], caption = "A Knitr table.")
+knitr::kable(df_wine[1:4,], caption = "A Knitr table.") %>% kableExtra::kable_styling(full_width = F)
+kable(df_wine)
+kable <- function(data) {
+knitr::kable(data, booktabs = TRUE, digits = 2) %>%
+kableExtra::kable_styling(latex_options =c("striped", "scale_down"))
+}
+kable(df_wine[1:5, 1:10])
+# install.packages("janitor")
+library(knitr)
+library(dplyr)
+library(tidyr)
+library(janitor)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE)
+kable <- function(data) {
+knitr::kable(data, booktabs = TRUE, digits = 2) %>%
+kableExtra::kable_styling(bootstrap_options = c("striped", "scale_down"))
+}
+df_red <- read.csv('wine_quality_reds.csv')
+df_red <- tbl_df(subset(df_red, select = -X))
+str(df_red)
+df_red <- clean_names(df_red)
+df_red <- rename(df_red, ph = 'p_h')
+df_red$type <- 'red'
+df_white <- read.csv('wine_quality_whites.csv')
+df_white <- tbl_df(subset(df_white, select = -X))
+str(df_white)
+df_white <- clean_names(df_white)
+df_white <- rename(df_white, ph = 'p_h')
+df_white$type <- 'white'
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+str(df_wine)
+table(df_wine$type)
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+str(df_wine)
+table(df_wine$type)
+summary(df_wine)
+# install.packages("janitor")
+library(knitr)
+library(dplyr)
+library(tidyr)
+library(janitor)
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE)
+kable <- function(data) {
+knitr::kable(data, booktabs = TRUE, digits = 2) %>%
+kableExtra::kable_styling(bootstrap_options = c("striped", "scale_down"))
+}
+df_red <- read.csv('wine_quality_reds.csv')
+df_red <- tbl_df(subset(df_red, select = -X))
+str(df_red)
+df_red <- clean_names(df_red)
+df_red <- rename(df_red, ph = 'p_h')
+df_red$type <- 'red'
+summary(df_red)
+df_white <- read.csv('wine_quality_whites.csv')
+df_white <- tbl_df(subset(df_white, select = -X))
+str(df_white)
+df_white <- clean_names(df_white)
+df_white <- rename(df_white, ph = 'p_h')
+df_white$type <- 'white'
+summary(df_white)
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+str(df_wine)
+table(df_wine$type)
+summary(df_wine)
+write.csv('wine_quality_clean.csv')
+getwd()
+write.csv(df_wine,'wine_quality_clean.csv')
+?cut
+df_wine$informal_quality <- cut(df_wine$quality, breaks = c(0, 3, 6, 8, 10), labels = c('ruim', 'razoavel', 'bom', 'muito bom'))
+str(df_wine)
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+df_wine$informal_quality <- cut(df_wine$quality, breaks = c(0, 3, 6, 8, 10), labels = c('ruim', 'razoavel', 'bom', 'muito bom'))
+write.csv(df_wine,'wine_quality_clean.csv')
+str(df_wine)
+table(df_wine$type)
+table(df_wine$informal_quality)
+summary(df_wine)
+df_wine <- ssub(df_wine, select = -informal_quality)
+df_wine <- subset(df_wine, select = -informal_quality)
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+df_wine$category <- cut(df_wine$quality, breaks = c(0, 3, 6, 8, 10), labels = c('ruim', 'razoavel', 'bom', 'muito bom'))
+write.csv(df_wine,'wine_quality_clean.csv')
+str(df_wine)
+table(df_wine$type)
+table(df_wine$informal_quality)
+summary(df_wine)
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+df_wine$category <- cut(df_wine$quality, breaks = c(0, 3, 6, 8, 10), labels = c('ruim', 'razoavel', 'bom', 'muito bom'))
+write.csv(df_wine,'wine_quality_clean.csv')
+str(df_wine)
+table(df_wine$type)
+table(df_wine$category)
+summary(df_wine)
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+df_wine$category <- cut(df_wine$quality, breaks = c(0, 3, 6, 8, 10), labels = c('baixa qualidade', 'razoavel qualidade', 'boa qualidade', 'excepcional qualidade'))
+write.csv(df_wine,'wine_quality_clean.csv')
+str(df_wine)
+table(df_wine$type)
+table(df_wine$category)
+summary(df_wine)
+df_wine <- bind_rows(df_red, df_white)
+df_wine$type <- as.factor(df_wine$type)
+df_wine$category <- cut(df_wine$quality, breaks = c(0, 3, 6, 8, 10), labels = c('baixa qualidade', 'razoavel qualidade', 'boa qualidade', 'excepcional qualidade'))
+write.csv(df_wine,'wine_quality_clean.csv')
+str(df_wine)
+summary(df_wine)
+library(ggplot2)
+library(gridExtra)
+ggpairs(df_wine,
+lower = list(continuous = wrap("points", shape = I('.'))),
+upper = list(combo = wrap("box", outlier.shape = I('.'))),
+axisLabels = 'internal')
+library(GGally)
+library(scales)
+library(memisc)
+ggpairs(df_wine,
+lower = list(continuous = wrap("points", shape = I('.'))),
+upper = list(combo = wrap("box", outlier.shape = I('.'))),
+axisLabels = 'internal')
+ggpairs(df_wine,
+lower = list(continuous = wrap("points", shape = I('.'))),
+upper = list(combo = wrap("box", outlier.shape = I('.'))))
+ggcorr(df_wine, label = TRUE)
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text.y.left = element_text(vjust = 2))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text.y.left = element_text(vjust = 3))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text.y = element_text(vjust = 3))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text.x = element_text(vjust = 3))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text.x.top  = element_text(vjust = 3))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text.x.top  = element_text(angle = 45))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text =   = element_text(angle = 45))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text = element_text(angle = 45))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text.x = element_text(angle = 45))
+ggcorr(df_wine, label = TRUE) +
+theme(axis.text.y = element_text(angle = 45))
+ggcorr(df_wine, label = TRUE, hjust = .75)
+ggcorr(df_wine, label = TRUE, hjust = .90)
+ggcorr(df_wine, label = TRUE, hjust = .90, size = 15)
+ggcorr(df_wine, label = TRUE, hjust = .90, size = 5)
+ggcorr(df_wine, label = TRUE, hjust = .90, size = 5)
+ggcorr(df_wine, label = TRUE, hjust = .75, size = 10)
+```{r, fig.align='center', fig.width=15}
+ggcorr(df_wine, label = TRUE, hjust = .90, size = 10)
+ggcorr(df_wine, label = TRUE, hjust = .90, size = 10)
+ggcorr(df_wine, label = TRUE)
+ggcorr(df_wine, label = TRUE)
+ggcorr(df_wine, label = TRUE, hjust=0.9)
+ggcorr(df_wine, label = TRUE, hjust=0.7)
+ggcorr(df_wine, label = TRUE, hjust=0.7)
+ggcorr(df_wine, label = TRUE, hjust=0.6, geom = "circle", nbreaks = 5)
+ggcorr(df_wine, label = TRUE, hjust=0.3, geom = "circle", nbreaks = 5)
+ggcorr(df_wine, label = TRUE, hjust=0.3, nbreaks = 5)
+ggcorr(df_wine, label = TRUE, hjust=0.6, nbreaks = 5)
+ggcorr(df_wine, label = TRUE, hjust=0.6, nbreaks = 5)
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5)
+```{r, fig.align='rigth', fig.width=15, fig.height=13}
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5)
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5, size = 5)
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5, size = 5) +
+scale_color_brewer(type = 'div')
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5, size = 5, palette = 'div)
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5, size = 5, palette = 'div)
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5, size = 5, palette = 'div')
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5, size = 5, palette = 'div')
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5, palette = 'div')
+ggcorr(df_wine, label = TRUE, hjust=0.75, nbreaks = 5, palette = 'div') +
+theme(legend.position="top")
+ggcorr(df_wine, label = TRUE, hjust=0.75, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position="top")
+ggcorr(df_wine, label = TRUE, hjust=0.75, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position="left")
+ggcorr(df_wine, label = TRUE, hjust=0.75, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position="down")
+ggcorr(df_wine, label = TRUE, hjust=0.75, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, hjust=0.75, size = 5, angle=45, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, hjust=0.75, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, vjust=0.75, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, vjust=1, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, vjust = 5, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, vjust = 0.5, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, vjust = 0.1, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, vjust = 0, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, vjust = -1, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, vjust = -2, size = 5, angle=90, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, hjust= 0.75, size = 5, angle=135, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, hjust= 0.75, size = 5, angle=-45, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, hjust= 0.75, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, hjust= 0.75, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position = "left")
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(),
+panel.border     = element_blank(),
+panel.background = element_blank(),
+axis.line        = element_line(colour = "black", size = .8),
+legend.key       = element_blank(),
+axis.ticks       = element_line(colour = "black", size = .6),
+axis.text        = element_text(size = 6, colour = "black"),
+plot.title       = element_text(hjust = 0.0, size = 6, colour = "black"),
+axis.title       = element_text(size = 6),
+legend.text      = element_text(size = 6),
+legend.title     = element_text(size = 6, face = "bold"),
+legend.position  = c(.9, .15))
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(panel.grid.major = element_blank(),
+panel.background = element_blank(),
+legend.key       = element_blank(),
+axis.text        = element_text(size = 6, colour = "black"),
+legend.text      = element_text(size = 6),
+legend.title     = element_text(size = 6, face = "bold"),
+legend.position  = c(.0, .15))
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(panel.grid.major = element_blank(),
+panel.background = element_blank(),
+legend.key       = element_blank(),
+axis.text        = element_text(size = 6, colour = "black"),
+legend.text      = element_text(size = 6),
+legend.title     = element_text(size = 6, face = "bold"),
+legend.position  = c(.0, .0))
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(panel.grid.major = element_blank(),
+panel.background = element_blank(),
+legend.key       = element_blank(),
+axis.text        = element_text(size = 6, colour = "black"),
+legend.text      = element_text(size = 6),
+legend.title     = element_text(size = 6, face = "bold"),
+legend.position  = c(.70, .70))
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(panel.grid.major = element_blank(),
+panel.background = element_blank(),
+legend.key       = element_blank(),
+axis.text        = element_text(size = 6, colour = "black"),
+legend.text      = element_text(size = 6),
+legend.title     = element_text(size = 6, face = "bold"),
+legend.position  = c(.70, .0))
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(panel.grid.major = element_blank(),
+panel.background = element_blank(),
+legend.key       = element_blank(),
+axis.text        = element_text(size = 6, colour = "black"),
+legend.text      = element_text(size = 6),
+legend.title     = element_text(size = 6, face = "bold"),
+legend.position  = c(.0, .70))
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(panel.grid.major = element_blank(),
+panel.background = element_blank(),
+legend.key       = element_blank(),
+axis.text        = element_text(size = 6, colour = "black"),
+legend.text      = element_text(size = 6),
+legend.title     = element_text(size = 6, face = "bold"),
+legend.position  = 'top')
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(panel.grid.major = element_blank(),
+panel.background = element_blank(),
+legend.key       = element_blank(),
+axis.text        = element_text(size = 6, colour = "black"),
+legend.text      = element_text(size = 6),
+legend.title     = element_text(size = 6, face = "bold"),
+legend.position  = 'left')
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position  = 'left')
+ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+theme(legend.position  = 'left')

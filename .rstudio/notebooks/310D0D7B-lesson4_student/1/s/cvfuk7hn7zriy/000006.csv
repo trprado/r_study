@@ -1,0 +1,6 @@
+"0","ggplot(aes(x = age, y = friend_count), data = df) +
+    geom_jitter(alpha = 0.05) +
+    xlim(13, 90)
+"
+"2","Error: object 'Notes' not found
+"

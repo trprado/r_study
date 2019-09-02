@@ -1,0 +1,678 @@
+---
+title: "Preços de computadores pessoais"
+author: "Thiago Roberto do Prado"
+date : 2019-08-29
+
+output:
+    html_document:
+        toc: true
+        fig_width: 10
+        fig_height: 10
+        fig_caption: true
+        df_print: tibble
+---
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# install.packages("janitor")
+
+library(knitr)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+
+library(ggplot2)
+library(grid)
+library(gridExtra)
+
+library(GGally)
+library(scales)
+library(memisc)
+library(psych)
+
+opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.align = 'center', fig.width = 10, fig.height = 10)
+```
+# Preços de computadores pessoais
+
+```{r}
+df_comp <- read.csv('Computers.csv')[,c(-1, -10)]
+df_comp <- tbl_df(df_comp)
+```
+
+```{r}
+df_comp$date <- as.Date('1993-01-01')
+month(df_comp$date) <- ifelse(df_comp$trend > 1, month(df_comp$date) + df_comp$trend - 1, month(df_comp$date))
+df_comp[1:5,]
+dim(df_comp)
+
+str(df_comp)
+summary(df_comp)
+```
+
+### Preços por Ano
+```{r}
+writeLines('Sumário:')
+by(df_comp$price, year(df_comp$date), summary)
+```
+
+### Velocidade Processador por Ano
+```{r}
+writeLines('Sumário:')
+by(df_comp$speed, year(df_comp$date), summary)
+
+writeLines('\nValor máximo por ano:')
+lapply(by(df_comp$speed, year(df_comp$date), table), max)
+
+writeLines('\nFrequência por ano:')
+by(df_comp$speed, year(df_comp$date), table)
+```
+### HD por Ano
+```{r}
+writeLines('Sumário:')
+by(df_comp$hd, year(df_comp$date), summary)
+
+writeLines('\nValor máximo por ano:')
+lapply(by(df_comp$hd, year(df_comp$date), table), max)
+
+writeLines('\nFrequência por ano:')
+by(df_comp$hd, year(df_comp$date), table)
+```
+### RAM por Ano
+```{r}
+writeLines('Sumário:')
+by(df_comp$ram, year(df_comp$date), summary)
+
+writeLines('\nValor máximo por ano:')
+lapply(by(df_comp$ram, year(df_comp$date), table), max)
+
+writeLines('\nFrequência por ano:')
+by(df_comp$ram, year(df_comp$date), table)
+```
+
+### Tamanho Tela por Ano
+```{r}
+writeLines('Sumário:')
+by(df_comp$screen, year(df_comp$date), summary)
+
+writeLines('\nValor máximo por ano:')
+lapply(by(df_comp$screen, year(df_comp$date), table), max)
+
+writeLines('\nFrequência por ano:')
+by(df_comp$screen, year(df_comp$date), table)
+```
+
+### Drive de CDROM por Ano
+```{r}
+writeLines('Sumário:')
+by(df_comp$cd, year(df_comp$date), summary)
+```
+
+### Multimídia (Caixa de Som, Placa de Som, etc.) por Ano
+```{r}
+writeLines('Sumário:')
+by(df_comp$cd, year(df_comp$date), summary)
+```
+
+### Venda por tipo de empresa por Ano
+```{r}
+writeLines('Sumário:')
+by(df_comp$premium, year(df_comp$date), summary)
+round(do.call('rbind', by(df_comp$premium, year(df_comp$date), table)) / apply(do.call('rbind', by(df_comp$premium, year(df_comp$date), table)),1, sum), 4)
+```
+
+## Análise univariada
+### Qual é a estrutura dos dados?
+Os dados analisados são provenientes do pacote Ecdat do software R (R Core Team, 2019). Eles correspondem às informações de vendas de computadores pessoais que ocorreram entre os períodos de Janeiro de 1993 até Novembro de 1995.
+
+As variáveis disponíveis para as análises são:
+price: (int) preço em dólares americanos de computadores 486.
+speed: (int) velocidade do clock em MHz do processador
+hd: (int) tamanho do Hard Disk (HD) em MB.
+ram: (int) tamanho da memória de acesso randômico (RAM) em MB
+screen: (int) tamanho dos monitores de tubo em polegadas.
+cd: (Factor) presença ou ausência de leitora de CDROM.
+multi: (Factor) presença ou ausência de kit multimídia (auto falantes, placa de som).
+premium: (Factor) informações do fabricante dos computadores categorizadas por marca conhecida (yes), como IBM ou COMPAQ, ou não (no).
+trend: (int) tempo em meses de Janeiro de 1993 até Novembro de 1995.
+date: (Date) data das vendas dos computadores por anos e meses.
+
+No ano de 1993 o preço médio U\$ 2340 sendo que 90,96% foram vendidos por empresas consideradas premium, sendo que a a maioria dos computadores vendidos desse ano tem as seguintes características:
+
+- Processador de 33MHz;
+- 340MB de espaço em HD;
+- 4MB de memória RAM;
+- Telas de tubo de 14";
+- Poucos computadores possuíam drive de CDROM;
+- A grande maioria não possuía especificações multimídia, provavelmente devido ao seu alto custo.
+
+Para o ano de 1994 o preço médio dos computadores era de U\$ 2196, com uma diminuição no preço comparado ao ano anterior. Nesse ano houve uma queda de aproximadamente 3.38% das vendas de computadores por empresas *premium*. Os computadores desse ano possuíam as seguintes características:
+
+- Continuam a ser a grande maioria os processadores com 33 MHz. Esse pode ser um dos motivos do menor custo dos computadores no ano de 94;
+- 340MB de espaço em HD, sugerindo outro motivo para a diminuição do valor médio dos computadores;
+- Houve o aumento em 4MB de memória RAM no ano de 1994, totalizando 8MB de RAM;
+- As telas continuam a ser de 14";
+- Houve um aumento no interesse de computadores com drive de CDROM;
+- Para esse ano, houve um aumento no interesse geral de suporte multimídia, porém ainda não esta presente na maioria dos computadores.
+
+Para o ano de 1995, o último ano de estudo e avaliação do perfil de venda dos computadores nos EUA, tem preço médio de U\$ 2015. Nesse ano as vendas de computadores por empresas *premium* aumentou para 96.02%, mostrando um domínio quase completo das vendas. As suas configurações são:
+
+- Aumento no processador para 66Mhz;
+- 1000MB de espaço em disco, o que representa um grande salto de armazenamento físico;
+- Se mantêm os 8MB de RAM;
+- As telas passam a ser de 15" na maioria dos computadores vendidos;
+- A grande maioria dos computadores vendidos possuía drive de CDROM;
+- O ano de 1995 representa um aumento geral de itens multimídia presentes, fazendo parte da maioria dos computadores.
+
+O ano de 1995 representa uma queda no valor médio dos computadores com aumentos em processamento, espaço de armazenamento e tamanho da tela de tubo. Também, todos os computadores que apresentaram possuir CDROM possuíam também o kit multimídia.
+
+Monitores não têm informação se são coloridos ou de fósforo verde.
+
+### Quais são as características mais importantes do dataset?
+As características que representam a maior importância são *price* e *ram*. Gostaria de encontrar características que possam ser utilizadas para determinar o preço de um computador. Também suspeito que a *ram* e outras combinações de variáveis possam ser utilizadas para criar um modelo preditivo que ajude a determinar os preço de um computador entre 1993 até 1995. Outros anos não irão ser considerar, pois é preciso explorar nesse momento outras variáveis que o dataset não possui.
+
+### Quais são as características mais importantes do dataset?
+As características que representam a maior importância são *price* e *ram*. Gostaria de encontrar características que possam ser utilizadas para determinar o preço de um computador. Também suspeito que a *ram* e outras combinações de variáveis possam ser utilizadas para criar um modelo preditivo que ajude a determinar os preços de um computador entre 1993 até 1995. Outros anos não irão ser considerar, pois é preciso explorar nesse momento outras variáveis que o dataset não possui.
+
+### Outras características que penso que podem ajudar na investigação?
+As variáveis *ram*, *hd*, *speed* e as categóricas podem contribuir para determinar o preço de um computador dentro da época em que os dados foram capturados. Penso que *ram* com *speed* possam ser de maior importância na contribuição por serem o que torna um computador em si mais rápidos, porém na época HDs também contribuíam para um alto preço, visto que o armazenamento era escasso.
+
+### Foi criado novas variáveis com base no dataset?
+Foi criado *date* que contém a data catalogada do preço de cada computador, ela foi utilizada pois *trend* que mostra apenas a contagem de meses a partir de janeiro de 1993 não é muito explicativa a humanos, assim ao utilizar datas temos uma visualização informativa e legível.
+
+### Das características investigadas, existe alguma distribuição não usual?
+Não foi incluso na análise a variável *ads* (número de vezes que o valor do produto foi listado por cada mês) pois foi considerada redundante para as análises. O ano de 1995 possui apenas dados até novembro, o que acaba não informando as vendas durante a época de festas de dezembro que poderia conter um maior número de vendas.
+
+Após criada a variável auxiliar *date* os dados possuíam dimensão de 6529 observações e 10 variáveis.
+
+```{r}
+# lapply(by(df_comp$screen, year(df_comp$date), table), max)[[1]][1]
+# 
+# names(which(by(df_comp$screen, year(df_comp$date), table)[[1]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[1]]))
+# names(which(by(df_comp$screen, year(df_comp$date), table)[[2]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[2]]))
+# names(which(by(df_comp$screen, year(df_comp$date), table)[[3]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[3]]))
+    
+# maximos<-NULL
+# for(i in 1:3){
+#     maximos[i]<-names(which(by(df_comp$screen, year(df_comp$date), table)[[i]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[i]]))
+# }
+# maximos
+```
+
+## Análise Bivariada
+```{r Figura 1. Heatmap das correlações entre variáveis}
+ggcorr(df_comp, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+    theme(legend.position  = 'left') +
+    ggtitle('Figura 1. Heatmap das correlações entre variáveis')
+```
+
+A primeira figura (Figura 1) é um *Heatmap* com a correlação entre as variáveis onde pudemos observar que, as variáveis *hd* e *ram* possuem uma forte correlação positiva, o que pode ser observado na Figura 13, também temos uma boa correlação entre *ram* e *price*.
+
+Os mesmos pontos podem ser vistos na Figura 2, onde temos um gráfico da matriz de correlação com dispersão e na diagonal principal o histograma da distribuição de cada variável.
+
+```{r Figura 2. Gráfico da matriz de correlação e disperção entre as variáveis, echo=FALSE, message=FALSE, warning=FALSE, fig.height=15, fig.width=15}
+pairs.panels(df_comp[,-10], lm = TRUE, 
+             main = 'Figura 2. Gráfico da matriz de correlação e disperção entre as variáveis')
+```
+
+## Análise Multivariada
+```{r Figura 3. Distribuição dos Preços entre 1993 a 1995}
+ggplot(data = df_comp,
+       aes(x = price)) +
+    geom_histogram(aes(y =..density..), binwidth = 100) +
+    geom_density(aes(y =..density..)) +
+    ggtitle('Figura 3. Distribuição dos Preços entre 1993 a 1995')
+```
+
+
+```{r Figura 4. Distribuição de densidade do log10(preço) entre 1993 até 1995}
+ggplot(data = df_comp,
+       aes(x = price)) +
+    geom_histogram(aes(y =..density..), binwidth = 0.05) +
+    geom_density(aes(y =..density..)) +
+    scale_x_log10(breaks = seq(0, 5500, 500)) +
+    ggtitle('Figura 4. Distribuição de densidade do log10(preço) entre 1993 até 1995')
+```
+
+```{r}
+# ggplot(data = df_comp,
+#        aes(x = speed)) +
+#     geom_histogram(binwidth = 1, aes(y =..density..)) +
+#     geom_density(aes(y =..density..)) +
+#     scale_x_continuous(limits = c(25, 100), breaks = seq(25, 100, 5))
+```
+
+```{r}
+# ggplot(data = df_comp,
+#        aes(x = speed)) +
+#     geom_histogram(binwidth = 0.01, aes(y =..density..)) +
+#     geom_density(aes(y =..density..)) +
+#     scale_x_log10(breaks = seq(25, 100, 5))
+```
+
+
+```{r}
+# ggplot(data = df_comp,
+#        aes(x = hd)) +
+#     geom_histogram(binwidth = 50) +
+#     scale_x_continuous(limits = c(80, 2100), breaks = seq(80, 2100, 100)) +
+#     theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+# ggplot(data = df_comp,
+#        aes(x = ram)) +
+#     geom_histogram(binwidth = 1) +
+#     scale_x_continuous(limits = c(1, 30), breaks = seq(1, 30, 1))
+```
+
+
+```{r}
+# install.packages('ggpubr')
+# library(ggpubr)
+# ggqqplot(log10(df_comp$price))
+# ks.test(df_comp$price, pnorm, mean(df_comp$price), sd(df_comp$price))
+```
+
+```{r Figura 5. Gráfico de dispersão do log10(preço) pela velocidade da CPU entre os anos de 1993 até 1994}
+ggplot(data = df_comp,
+       aes(x = speed, y = price)) +
+    geom_jitter(alpha = 0.05) +
+    scale_y_log10() +
+    geom_line(stat = 'summary', fun.y = mean) +
+    geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .1),
+              linetype =2, color = 'blue') +
+    geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .5),
+              color = 'blue') +
+    geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .9),
+              linetype = 2, color = 'blue') +
+    facet_wrap(~year(date), scales = 'free_y') +
+    ggtitle('Figura 5. Gráfico de dispersão do log10(preço) pela velocidade da CPU entre os anos de \n1993 até 1994')
+```
+
+Na Figura 5 o gráfico de dispersão nos ajuda a observar a tendência monetária dos custos de computadores por ano com relação à velocidade de processamento da CPU. Em 1993 os computadores possuíam até 66MHz de processamento enquanto a partir de 1994 foram lançados processador com velocidades de até 100MHz e com um custo menor ou equivalente a processadores do ano anterior e com menor frequência. Em 1995, computadores com processadores de até 100MHz custava um pouco mais que U\$ 2000.
+
+```{r Figura 6. Gráfico de dispersão entre log10(preço) e tamanho dos HDs entre 1993 até 1995}
+ggplot(data = df_comp,
+       aes(x = hd, y = price)) +
+    geom_jitter(alpha = 0.05) +
+    scale_y_log10() +
+    scale_x_continuous(limits = c(quantile(df_comp$hd, .01), quantile(df_comp$hd, .99)),
+                       breaks = seq(80, 1000, 100)) +
+    geom_line(stat = 'summary', fun.y = mean, color = 'blue') +
+    facet_wrap(~year(date), scales = 'free', ncol = 1) +
+    ggtitle('Figura 6. Gráfico de dispersão entre log10(preço) e tamanho dos HDs entre \n1993 até 1995')
+```
+
+Já o gráfico da Figura 6 representa a dispersão entre *log10(price)* e *hd*. No ano de 1993 podemos ver que as maiorias dos computadores possuíam HDs entre 80MB até 580MB, sendo que a maioria como foi validado anteriormente possuíam 340MB. Seus preços estavam entre valor de U\$ 2000 até U\$ 5000 dependendo de suas características. No ano de 1994 essa característica se mantém, com valor entre 80MB até 580MB de espaço de armazenamento, sendo que seus valores se mantiverem entre os U\$ 2000 a U\$ 5000. Em 1995 os HDs passam a ter um maior tamanho, sendo que os dados não informam vendas de computadores com menos de 180MB e os preços dos computadores despencam, com um custo mediano a baixo de U\$ 2000.
+
+```{r Figura 7. Gráfico de dispersão entre log10(price) e RAM entre 1993 até 1995}
+ggplot(data = df_comp,
+       aes(x = ram, y = price)) +
+    geom_jitter(alpha = 0.05) +
+    scale_y_log10() +
+    scale_x_continuous(limits = c(2, 32), breaks = seq(2, 32, 2)) +
+    geom_line(stat = 'summary', fun.y = mean) +
+    geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .1),
+              linetype =2, color = 'blue') +
+    geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .5),
+              color = 'blue') +
+    geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .9),
+              linetype = 2, color = 'blue') +
+    facet_wrap(~year(date), ncol = 1) +
+    xlab('RAM') +
+    ggtitle('Figura 7. Gráfico de dispersão entre log10(price) e RAM entre 1993 até 1995')
+```
+
+A figura 7 apresenta a dispersão de *log10(price)* pela *RAM*. A memória RAM normalmente é vinculada a forma $2^{i}$ com $i = 1, 2, 3, ..., n$. Nesses dados têm valores entre 2MB até 32MB de memória *RAM*, sendo que em 1993 os valores estavam entre 4MB a 8MB em computadores com valores entre U\$ 2000 a U\$ 4000, alguns computadores até U\$ 5000 podiam vir com até 16MB, com raros casos de maior quantidade. Já o ano de 1994 não houve grandes alterações, com alguns computadores podendo conter memórias até 24MB e valores inferiores a U\$ 4000. Em 1995 os computadores com quantidades de até 32MB de memória custavam pouco mais de U\$ 3000.
+
+```{r Figura 8. Gráfico tendencia entre log10(price) e meses entre os anos de 1993 até 1995}
+ggplot(data = df_comp,
+       aes(x = month(date), y = price, color = factor(year(date)))) +
+    geom_line(stat = 'summary', fun.y = median) +
+    scale_y_log10() +
+    geom_line(stat = 'summary', fun.y = quantile, fun.args = list(p = .1),
+              linetype = 2, color = 'blue') +
+    geom_line(stat = 'summary', fun.y = quantile, fun.args = list(p = .5),
+              linetype = 3, color = 'blue') +
+    geom_line(stat = 'summary', fun.y = quantile, fun.args = list(p = .9),
+              linetype = 2, color = 'blue') +
+    scale_x_continuous(breaks = seq(1, 12, 1)) +
+    labs(color = 'Year') +
+    ggtitle('Figura 8. Gráfico tendencia entre log10(price) e meses entre os anos \nde 1993 até 1995')
+```
+
+Podemos ver a tendência dos valores medianos entre os anos de 1993 até 1995 na Figura 8, onde temos que 90% dos computadores custam até pouco mais de U\$ 3000 dependendo da época do ano, enquanto em média seu valor fica entre U\$ 2000 e U\$ 2500. Podemos ver um aumento súbito do valor monetário de computadores no ano de 1995, entre os meses de setembro até outubro, permanecendo constante até novembro, sendo que esta é uma eṕoca nos EUA que se tem uma baixa nos preços devido ao *Black Friday* ao contrário do ano anterior que houve uma queda dos preços referente ao mesmo período. Podemos pensar que uma possível razão para isso, é que o aumento da procura por computadores devido ao fato de sua popularização e as festividades de final de ano possam ter gerado um aumento na oferta e demanda.
+
+```{r}
+# ggplot(data = df_comp,
+#        aes(x = month(date), y = price, color = factor(year(date)))) +
+#     geom_bar(stat = 'summary', fun.y = median) +
+#     scale_y_log10() +
+#     # geom_line(stat = 'summary', fun.y = 'mean') +
+#     geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .1),
+#               linetype = 2, color = 'blue') +
+#     geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .5),
+#               linetype = 3, color = 'blue') +
+#     geom_line(stat = 'summary', fun.y = 'quantile', fun.args = list(p = .9),
+#               linetype = 2, color = 'blue') +
+#     scale_x_continuous(breaks = seq(1, 12, 1)) +
+#     labs(color = 'Year')
+```
+
+
+```{r Figura 9. Gráfico de tendencia entre log10(price) e meses durante os anos de 1993 até 1995 para computadores com ou sem marca}
+ggplot(data = df_comp,
+       aes(x = date, y = price, color = premium)) +
+    geom_line(stat = 'summary', fun.y = median) +
+    scale_y_log10(breaks = seq(1000, 3000, 100)) +
+    scale_x_date(labels = date_format("%b %y"), breaks = seq(from = as.Date("1993-01-01"), to = as.Date("1995-11-01"), by = "months")) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+    labs(color = 'Premium') +
+    ggtitle('Figura 9. Gráfico de tendencia entre log10(price) e meses durante os \nanos de 1993 até 1995 para computadores com ou sem marca')
+```
+
+A Figura 9 nos mostra uma tendência onde computador vendidos por marcas *premium* tem um menor custo comparados a computadores sem marca ou marcas não consideradas *premium*. Essa tendência e confirmada entre março de 1993 até setembro de 1995, onde vemos computadores com marca sendo comercializados com valores muito acima daqueles sem marca. Empresas *premium* costumam ter uma produção maior de computadores do que aquelas que não são *premium*, fazendo computadores terem um custo menor por unidade vendida, por isso se modifica no final de 1995 o que pode significar que o custo de marca esta sendo incluindo no valor desses computadores vendidos.
+
+```{r}
+# ggplot(data = df_comp,
+#        aes(x = date, y = price, color = premium)) +
+#     geom_bar(stat = 'summary', fun.y = median) +
+#     scale_x_date(labels = date_format("%b %y"), breaks = seq(from = as.Date("1993-01-01"), to = as.Date("1995-11-01"), by = "months")) +
+#     theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+#     labs(color = 'Branded')
+```
+
+
+```{r Figura 10. Gráfico de tendência de log10(preço) de vendas durante os anos de 1993 até 1995 de drivers de CDROM}
+ggplot(data = df_comp,
+       aes(x = date, y = price, color = cd)) +
+    geom_line(stat = 'summary', fun.y = median) +
+    scale_y_log10(breaks = seq(1000, 3000, 100)) +
+    scale_x_date(labels = date_format("%b %y"), breaks = seq(from = as.Date("1993-01-01"), to = as.Date("1995-11-01"), by = "months")) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+    labs(color = 'CD') +
+    ggtitle('Figura 10. Gráfico de tendência de log10(preço) de vendas durante os \nanos de 1993 até 1995 de drivers de CDROM')
+```
+
+Na Figura 10, a partir de Março de 1993, podemos observar o aumento da procura do consumidor por computadores que possuíam drive de CD, sendo que esses possuíam valores maiores do que aqueles sem o periférico. Observa-se uma queda nos preços de computadores que não possuem o drive durante a passagem dos anos. Já os computadores que possuíam o drive tiveram uma queda de preço no início de 1995 porém ao final do mesmo ano os valores aumentaram expressivamente.
+
+```{r}
+# ggplot(data = df_comp,
+#        aes(x = date, y = price, color = cd)) +
+#     geom_bar(stat = 'summary', fun.y = median) +
+#     scale_x_date(labels = date_format("%b %y"), breaks = seq(from = as.Date("1993-01-01"), to = as.Date("1995-11-01"), by = "months")) +
+#     theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+#     labs(color = 'Has CD')
+```
+
+
+```{r Figura 11. Gráfico de tendência de log10(preço) de vendas durante os anos de 1993 até 1995 de kit multimídia}
+ggplot(data = df_comp,
+       aes(x = date, y = price, color = multi)) +
+    geom_line(stat = 'summary', fun.y = median) +
+    scale_y_log10(breaks = seq(1000, 3000, 100)) +
+    scale_x_date(labels = date_format("%b %y"), breaks = seq(from = as.Date("1993-01-01"), to = as.Date("1995-11-01"), by = "months")) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+    labs(color = 'Multimidia') +
+    ggtitle('Figura 11. Gráfico de tendência de log10(preço) de vendas durante \nos anos de 1993 até 1995 de kit multimídia')
+```
+
+No primeiro semestre de 1993, os computadores eram comercializados sem *kit* multimídia, como pode ser observado na Figura 11. A partir de Julho do mesmo ano, começou a venda de computares com *kit* multimídia. Entretanto, o valor das vendas, embora seja um pouco maior para os computadores que possuíam o *kit*, não diferenciou muito dos computadores que não possuíam o *kit*. No final de 1995, nos meses de Agosto até Novembro, observa-se que houve um aumento no preço dos eletrônicos que tanto possuíam ou não o *kit*, porém os que possuíam o recurso de multimídia apresentavam um custo maior do que os que careciam desse recurso.
+
+```{r}
+# ggplot(data = df_comp,
+#        aes(x = date, y = price, color = multi)) +
+#     geom_bar(stat = 'summary', fun.y = median) +
+#     scale_x_date(labels = date_format("%b %y"), breaks = seq(from = as.Date("1993-01-01"), to = as.Date("1995-11-01"), by = "months")) +
+#     theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+#     labs(color = 'Has Multimidia')
+```
+
+```{r Figura 12. Arranjo de boxplot de log10(price) por variáveis}
+p1 <- ggplot(data = df_comp,
+       aes(x = as.factor(speed), y = price)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    xlab('Velocidade CPU (MHz)') +
+    ggtitle('Por velocidade da \nCPU')
+
+# p2 <- ggplot(data = df_comp,
+#        aes(x = as.factor(hd), y = price)) +
+#     geom_boxplot()
+
+p3 <- ggplot(data = df_comp,
+       aes(x = as.factor(ram), y = price)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    xlab('RAM') +
+    ggtitle('Por memória RAM')
+
+p4 <- ggplot(data = df_comp,
+       aes(x = as.factor(screen), y = price)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    xlab('Polegadas Monitor') +
+    ggtitle('Por polegadas do \nMonitor')
+
+p5 <- ggplot(data = df_comp,
+       aes(x = cd, y = price)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    xlab('Possui Drive de CDROM') +
+    ggtitle('Por possuir Drive de \nCDROM')
+
+p6 <- ggplot(data = df_comp,
+       aes(x = multi, y = price)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    xlab('Possui Kit Multimídia') +
+    ggtitle('Por possuir Kit \nMultimídia')
+
+p7 <- ggplot(data = df_comp,
+       aes(x = premium, y = price)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    xlab('Por ser de Marca Premium') +
+    ggtitle('Por possuir Marca')
+
+grid.arrange(p1,p3,p4,p5,p6,p7, ncol = 3, 
+             top = textGrob("Figura 12. Arranjo de boxplot de log10(price) por variáveis",
+                            gp = gpar(fontsize=16,font=1),
+                            just = 'center')
+             )
+```
+
+Já na figura 12 temos um arranjo de *boxplots* com as variáveis pelo *log10(price)*. Com relação a velocidade da *CPU*, podemos ver que a mediana dos preços se encontra com valores a baixo de U\$ 3000, independente da velocidade. Observa-se que as únicas diferenças que aparentam ser significativas esta entre a velocidade de 100MHz e a de 25MHz em relação ao preço. O mesmo pode ser observado para a memória *RAM*, a partir do momento que temos um aumento na quantidade de memória, temos um aumento no preço do computador.
+
+As demais variáveis não parece ter uma influência significativa no preço final do produto.
+
+```{r Figura 13. Boxplot de log10(price) por HDs por anos de 1993 até 1995, fig.asp=0.8, fig.height=15, fig.width=10}
+ggplot(data = df_comp,
+       aes(x = as.factor(hd), y = price)) +
+    geom_boxplot() +
+    scale_y_log10(breaks = seq(0, 5000, 1000)) +
+    xlab('HD (MB)') +
+    facet_wrap(~year(date), ncol = 1, scales = 'free') +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    ggtitle('Figura 13. Boxplot de log10(price) por HDs por anos de 1993 até 1995')
+```
+
+A Figura 13 é outro gráfico de *boxplot* com relação entre o *log10(price)* e *hd*. Nele podemos ver pouca diferença do preço de computadores com armazenamento interno entre 85MB a 320MB, sendo que computadores com 80MB de armazenamento tem um custo bem próximo U\$ 1000. Nota-se que para alguns computadores computadores com *HDs*  525MB a 1370MB apresentaram os maiores valores monetários em 1993. Já em 1994 poucos computadores tiveram preços acima de U\$ 4000 com exceção de alguns computadores que possuíam *HD* de 728MB e 1000MB.
+
+Em 1995 computadores que possuíam *HDs* com tamanhos de 1600MB e 2100MB são os que apresentaram o maior valor monetário.
+
+```{r Figura 14.  Boxplot memória RAM por tamanho HD entre 1993 até 1995}
+ggplot(data = df_comp,
+       aes(x = as.factor(ram), y = hd, color = as.factor(year(date)))) +
+    geom_boxplot() +
+    labs(color = 'Year') +
+    xlab('RAM') +
+    ylab('HD') +
+    ggtitle('Figura 14.  Boxplot memória RAM por tamanho HD entre 1993 até 1995')
+```
+
+Pela Figura 14 podemos observar que a medida que o tamanho do *HD* aumenta a quantidade de memória *RAM* também tende a aumentar. Com exceção do *HD* de 2100MB que possuía 16MB de *RAM*.
+
+```{r Figura 15. Boxplot de log10(price) por existência de CDROM entre \ncomputadores premium ou não}
+ggplot(data = df_comp,
+       aes(x = cd, y = price, color = multi)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    labs(color = 'Kit Multimídia') +
+    facet_grid(~premium) +
+    ggtitle('Figura 15. Boxplot de log10(price) por existência de CDROM entre \ncomputadores premium ou não')
+```
+
+Pela Figura 15 observamos que as marcas *premium* vendiam computadores com *kit* multimídia e drive de *CD* com maior frequência e preços menores que aqueles sem marca *premium*. Observa-se também que computadores que não possuíam drives de *CD* não eram vendidos com *kit* multimídia.
+
+## Modelo de regressão linear
+```{r}
+# variáveis dummy.
+cd_dummy<-dummy.code(df_comp$cd)[,-1]
+multi_dummy<-dummy.code(df_comp$multi)[,-1]
+premium_dummy<-dummy.code(df_comp$premium)[,-1]
+
+# criação do novo dataframe com variáveis dummys e remoção das variáveis categoricas.
+dados<-cbind(df_comp[,1:5],cd_dummy, multi_dummy, premium_dummy)
+head(dados)
+
+# Seleção de variáveis pelo método forward
+m0 <- lm(log(price) ~ speed, data = dados)
+m1 <- update(m0, ~ . + ram)
+m2 <- update(m1, ~ . + hd)
+m3 <- update(m2, ~ . + screen)
+m4 <- update(m3, ~ . + cd_dummy)
+m5 <- update(m4, ~ . + multi_dummy)
+m6 <- update(m5, ~ . + premium_dummy)
+
+mtable(m0,m1,m2,m3,m4,m5,m6)
+```
+
+Para a análise foram criadas variáveis *dummys* para as variáveis categóricas. Na seleção de variáveis explicativas e de modelo foi utilizado o método *foward*, onde é adicionada uma variável por vez e analisada se ela contribui significativamente para o modelo. Será adotado o nível de confiança de 95% para todos os testes de normalidade e significância das variáveis explicativas. Para o teste de significância dos coeficientes do modelo a hipótese nula (H0) representa que o coeficiente analisado é igual a zero e a hipótese alternativa (Ha) representa que o coeficiente analisado difere de zero, caso o p-valor do teste seja menor que 5% de significância será rejeitada a hipótese nula. Na tabela acima, observa-se que no modelo m6 a variável correspondente ao *kit* multimídia não foi significativa e portanto será removida da análise.
+
+```{r}
+m7 <- update(m6, ~ . -multi_dummy)
+mtable(m0,m1,m2,m3,m4,m5,m6, m7)
+
+# verificação do pressuposto de normalidade dos residuos.
+# Hipótese nula H0: Os resíduos tem distribuição normal.
+# Hipótese alternativa Ha: Os resíduos não tem distribuição normal.
+ks.test(rstudent(m7), pnorm, mean(rstudent(m7)), sd(rstudent(m7)))
+```
+
+Duas pressuposições devem ser atendidas para que haja um ajuste satisfatótio do modelo linear, a normalidade dos resíduos e homogeneidade das variâncias residuais visto que os erros devem seguir uma distribuição normal com média zero e variância constante. As hipóteses testadas para a normalidade são:  Hipotese nula (H0): Os resíduos tem distribuição normal versus Hipotese alternativa (Ha): Os resíduos não tem distribuição normal. Após a remoção da variável de *kit* multimídia foi ajustado um novo modelo e feita o teste de normalidade dos resíduos que resultou o p-valor de 0.0027 (p-valor < 0,05), pode-se concluir que rejeita-se a hipóteses nula ao nível de significância de 5%, portanto os resíduos não seguem uma distribuição normal, violando assim o primeiro pressuposto do modelo linear simples. Para corrigir a normalidade, uma alternativa é a remoção de *outliers*. Para tal, foi escolhido que observações com resíduos acima fora do intervalo $[-3, 3]$ devem ser removidos da análise.
+
+```{r}
+# remoção de outliers.
+outliers<-c(which(rstudent(m7)>=3), which(rstudent(m7)<=(-3)))
+dados<-dados[-outliers,]
+
+# remoção da variável multi_dummy (não significativa)
+m8 <- update(m6, ~ . -multi_dummy, data = dados)
+ks.test(rstudent(m8), pnorm, mean(rstudent(m8)), sd(rstudent(m8)))
+
+mtable(m8)
+```
+
+Após a remoção dos *outliers* foi feito um novo modelo com os novos dados. Observa-se que a variável *cd* é não significativa (p-valor > 0,05) e portanto deve ser retirada da análise. 
+
+```{r}
+# remoção da variável cd_dummy (não significativa)
+m9 <- update(m8, ~ . -cd_dummy, data = dados)
+
+mtable(m9)
+ks.test(rstudent(m9), pnorm, mean(rstudent(m9)), sd(rstudent(m9)))
+
+# plot(fitted.values(m9), residuals(m9))
+# abline(h=0, col="red")
+```
+
+Após a remoção da variável *cd*, foi feito um novo modelo em que todos os coeficientes são significativos (p-valor < 0,05). Pela análise do coeficiente de determinação ($R^2$) observamos que as variáveis independentes explicam 54,4% da variável dependente, o que não é muito e indica que pode haver alguma variável explicativa significativa que não foi observada.
+
+```{r}
+round(coefficients(m9), 4)
+```
+
+A interpretação do modelo segue como: para uma unidade de *MHz* em processamento, o preço médio final do computador aumenta em U\$ 0,0028. Para uma unidade de aumento em *MB* de memória *RAM*, o valor final médio do computador aumenta em U\$ 0,0382. Para uma unidade de *MB* em *HD* o preço médio decai em U\$ -0,0003. Para uma unidade de polegadas do monitor de tudo, o preço médio do produto aumenta em U\$ 0,0482 e, por fim se a marca for *premium* o preço decai em U\$ 0,1802, em média.
+
+```{r Figura 16. Gráfico dos valores ajustados versus resíduos}
+ggplot(data = dados,
+       aes(x=fitted.values(m9), y=residuals(m9))) + 
+    geom_point() +
+    geom_hline(yintercept = 0, color = 'red') + 
+    ggtitle('Figura 16. Gráfico dos valores ajustados versus resíduos')
+```
+
+Para a segunda pressuposição da análise de modelo linear simples é necessário verificar a homogeneidade da variância residual. Os erros devem estar centrados em zero e estarem distribuídos de forma aleatória e homogênea quando for plotado os valores ajustados do modelo selecionado versus os resíduos do modelo, como pode ser observado na Figura 16
+
+```{r Figura 17. Grafico envelope da distribuição normal para os resíduos studentizados}
+fit.model<-m9
+attach(dados)
+source("https://www.ime.usp.br/~giapaula/envel_norm")
+
+```
+
+A normalidade dos resíduos pode ser avaliada tanto graficamente, pelo gráfico envelope da distribuição normal acima (qqplot com intervalo de confiança), quanto pelo teste de Kruskal-Wallis. Segundo o teste, não rejeitamos a hipótese nula e ao nível de significância de 5% podemos concluir que os resíduos seguem uma distribuição normal (p-valor de 0.4066).
+
+```{r Figura 18. Gráfico dos valores observados versus valores preditos e equação do modelo}
+ggplot(data=dados,
+       aes(x=price, y=predict(m9))) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    ggtitle('Figura 18. Gráfico dos valores observados versus valores preditos e equação do \nmodelo')
+
+```
+
+Na Figura 18 observa-se os valores observados da variável dependente versus os valores preditos pelo modelo proposto, sugerindo um ajuste satisfatório do mesmo.
+
+### Você criou algum modelo com os seus dados? Discuta as limitações e vantagens do seu modelo. 
+Foram criados no total nove modelos para a análise dos dados. Apesar de que as variáveis *HD* e *RAM* apresentaram forte correlação, indicando assim uma possível multicolinearidade entre essas duas variáveis. Foi estimado o Fator de Inflação da Variância (VIF) regredido a variável *HD* em relação as demais variáveis explicativas, observou-se um VIF < 10, não representando assim, a príncipio, um forte problema de multicolinearidade. Optou-se então por manter ambas as variáveis no modelo devido a pouca explicação que elas tem em relação a variável dependente (Referência: [Multicolinearidade](http://www.portalaction.com.br/analise-de-regressao/362-multicolinearidade)).  
+
+Na análise de normalidade dos resíduos, foi optado por escolher um modelo em que, por mais que os resíduos ultrapassem os limites de $[-3, 3]$, eles seguem uma distribuição de normalidade. Com a continuidade de limpeza de outliers essa pressuposição seria violada e assim não seria possível ajustar algum modelo satisfatório aos dados. O motivo disso pode ser devido ao fato de que a variável dependente não segue uma distribuição normal.
+
+## Gráficos finais e sumário
+### Primeiro gráfico escolhido: Distribuição de densidade do preço de computadores 486, correspondente aos anos de 1993 até 1995
+
+```{r Figura 1. Distribuição de densidade do log10(preço) entre 1993 até 1995}
+ggplot(data = df_comp,
+       aes(x = price)) +
+    geom_histogram(aes(y =..density..), binwidth = 0.05) +
+    geom_density(aes(y =..density..)) +
+    scale_x_log10(breaks = seq(0, 5500, 500)) +
+    ggtitle('Figura 1. Distribuição de densidade do log10(preço) entre 1993 até 1995')
+
+# ks.test(df_comp$price, pnorm, mean(df_comp$price), sd(df_comp$price))
+```
+
+Apesar de ter transformado a variável resposta em logaritmo, ainda assim ela não apresenta uma distribuição normal (p-valor < 0,05) optou-se por fazer uma análise de modelo linear simples pois graficamente a distribuição do logaritmo do preço adquire aproximadamente uma forma simétrica de sino.
+
+### Segundo gráfico escolhido: Boxplot de ausência ou não de CD por preço, agrupado por kit multimídia
+```{r Figura 2. Boxplot de log10(price) por existencia de CDROM entre \ncomputadores premium ou não}
+ggplot(data = df_comp,
+       aes(x = cd, y = price, color = multi)) +
+    geom_boxplot() +
+    scale_y_log10() +
+    labs(color = 'Kit Multimídia') +
+    facet_grid(~premium) +
+    ggtitle('Figura 2. Boxplot de log10(price) por existência de CDROM entre \ncomputadores premium ou não')
+```
+
+A figura acima foi documentada na análise multivariada demonstrando a não significância estatística das variáveis *cd* e *multi* como explicativas do preço dos computadores 486, como foi comprovado na análise de modelos.
+
+### Terceiro gráfico escolhido: Equação do modelo proposto
+```{r Figura 3. Gráfico dos valores observados versus valores preditos e equação do modelo}
+ggplot(data=dados,
+       aes(x=price, y=predict(m9))) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    ggtitle('Figura 3. Gráfico dos valores observados versus valores preditos e equação do \nmodelo')
+
+```
+
+Apesar do efeito da multicolinearidade e da falta de distribuição de normalidade da variável resposta, a figura acima demonstra que o modelo proposto se ajusta satisfatoriamente aos dados.
+
+## Reflexões
+
+O dataset de computadores contém 6259 observações de 10 variáveis, dessas não existem valores nulos e os dados representam computadores entre os anos de 1993 até 1995. Inicialmente, foram feitas análises tabulares, de sumário e gráficas para analisar o perfil do consumidor nos anos correspondentes, assim como avaliar o comportamento das variáveis.
+
+Na análise bidimensional, verificou-se uma alta correlação entre as variáveis *hd* e *ram* de 80%, e correlações moderadas para as variáveis *price* e *ram* e *hd* com *trend*, ambas com 60%. Na análise multivariada podemos ver as tendências de comportamento entre as variáveis com a variável dependente preço, tanto *speed*, *hd*, *ram* e *screen* mostraram tendências positivas no aumento dos preços dos computadores, já as variáveis *multi* e *cd* não apresentaram tendência nenhuma. O preço dos computadores apresenta um decrescimento com o passar dos anos, com exceção do final de 1995 onde o valor do produto tem um aumento súbito, razão não encontrada nos dados. Após transformar a variável *price* em logaritmo e torná-la o mais o mais próximo de uma distribuição norma, obteve-se 54.4% da variância do modelo, motivo para tal, é que talvez haja variáveis explicativas não observadas e que influenciem na variável resposta.
+
+Alguma das limitações encontradas nos dados, é que em primeiro ponto, estamos trabalhando com dados de quase 30 anos atrás. Esses dados não contam com ajustes de inflação, juros e outros ajustes monetários. Existe também um salto de desempenho e configurações entre esse tempo não catalogado. Também temos de considerar que para os dias atuais, alguns dos *hardwares* começaram a se tornar obsoletos, onde podemos observar que no tempo atual *HDs* estão sendo alterados por *SSDs* e a troca de telas de tubo por monitor LCD e outras tecnologias, demonstrando que o perfil do consumidor se alterou com o tempo, sendo que entre 1993 a 1995 computadores ainda eram considerados artigo de luxo, refletindo que o presente estudo é transversal. Embora atualmente seja acessível ter um computador, o *hardware* evolui de tal maneira que apenas os itens citados no banco de dados não são suficientes para estimar nos dias atuais o preço final de um computador.

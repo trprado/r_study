@@ -1,0 +1,4 @@
+"0","# ggplot(data = df_comp,"
+"0","#        aes(x = ram)) +"
+"0","#     geom_histogram(binwidth = 1) +"
+"0","#     scale_x_continuous(limits = c(1, 30), breaks = seq(1, 30, 1))"

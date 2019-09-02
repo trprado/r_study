@@ -1,0 +1,20 @@
+"0","# install.packages('alr3')
+library(alr3)
+"
+"2","Loading required package: car
+"
+"2","Loading required package: carData
+"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"2","
+Attaching package: ‘car’
+
+"
+"2","The following object is masked from ‘package:dplyr’:
+
+    recode
+
+"

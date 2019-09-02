@@ -1,0 +1,12 @@
+"0","```r
+df_red <- read.csv('wine_quality_reds.csv')
+df_red <- tbl_df(subset(df_red, select = -X))
+str(df_red)
+
+df_red <- clean_names(df_red)
+df_red <- rename(df_red, ph = 'p_h')
+
+df_red$type <- 'red'
+
+summary(df_red)
+```"

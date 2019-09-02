@@ -1,0 +1,6 @@
+"0","# ggplot(data = df_comp,"
+"0","#        aes(x = date, y = price, color = multi)) +"
+"0","#     geom_bar(stat = 'summary', fun.y = median) +"
+"0","#     scale_x_date(labels = date_format(""%b %y""), breaks = seq(from = as.Date(""1993-01-01""), to = as.Date(""1995-11-01""), by = ""months"")) +"
+"0","#     theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +"
+"0","#     labs(color = 'Has Multimidia')"

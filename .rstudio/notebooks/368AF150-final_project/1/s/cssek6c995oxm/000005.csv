@@ -1,0 +1,8 @@
+"0","# variáveis dummy."
+"0","cd_dummy<-dummy.code(df_comp$cd)[,-1]"
+"0","multi_dummy<-dummy.code(df_comp$multi)[,-1]"
+"0","premium_dummy<-dummy.code(df_comp$premium)[,-1]"
+"0",""
+"0","# criação do novo dataframe com variáveis dummys e remoção das variáveis categoricas."
+"0","dados<-cbind(df_comp[,1:5],cd_dummy, multi_dummy, premium_dummy)"
+"0","head(dados)"

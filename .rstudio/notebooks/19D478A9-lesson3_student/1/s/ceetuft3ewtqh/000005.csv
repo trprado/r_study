@@ -1,0 +1,2 @@
+"0","df <- read.delim('pseudo_facebook.tsv')"
+"0","head(df)"

@@ -1,0 +1,2 @@
+"0","pairs.panels(df_comp[,-10], lm = TRUE, "
+"0","             main = 'Figura 2. Gráfico da matriz de correlação e disperção entre as variáveis')"

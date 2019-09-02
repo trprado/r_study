@@ -1,0 +1,5 @@
+"0","ggplot(data = df_comp,"
+"0","       aes(x = price)) +"
+"0","    geom_histogram(aes(y =..density..), binwidth = 100) +"
+"0","    geom_density(aes(y =..density..)) +"
+"0","    ggtitle('Figura 3. Distribuição dos Preços entre 1993 a 1995')"

@@ -1,0 +1,112 @@
+"0","# remoção de outliers."
+"0","outliers<-c(which(rstudent(m7)>=3), which(rstudent(m7)<=(-3)))"
+"0","dados<-dados[-outliers,]"
+"0",""
+"0","# remoção da variável multi_dummy (não significativa)"
+"0","m8 <- update(m6, ~ . -multi_dummy, data = dados)"
+"0","ks.test(rstudent(m8), pnorm, mean(rstudent(m8)), sd(rstudent(m8)))"
+"2","ties should not be present for the Kolmogorov-Smirnov test"
+"1","
+"
+"1","	One-sample Kolmogorov-Smirnov test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","rstudent(m8)"
+"1",""
+"1","
+"
+"1","D = 0.010795, p-value = 0.4658"
+"1","
+"
+"1","alternative hypothesis: "
+"1","two-sided"
+"1",""
+"1","
+"
+"1","
+"
+"0","mtable(m8)"
+"1","
+Calls:
+"
+"1","m8"
+"1",""
+"1",": "
+"1","lm(formula = log(price) ~ speed + ram + hd + screen + cd_dummy + 
+"
+"1","    premium_dummy, data = dados)
+"
+"1","
+"
+"1","==============================
+"
+"1",""
+"1","  (Intercept)       6.804***  
+"
+"1",""
+"1","                   (0.036)    
+"
+"1",""
+"1","  speed             0.003***  
+"
+"1",""
+"1","                   (0.000)    
+"
+"1",""
+"1","  ram               0.038***  
+"
+"1",""
+"1","                   (0.001)    
+"
+"1",""
+"1","  hd               -0.000***  
+"
+"1",""
+"1","                   (0.000)    
+"
+"1",""
+"1","  screen            0.048***  
+"
+"1",""
+"1","                   (0.002)    
+"
+"1",""
+"1","  cd_dummy          0.003     
+"
+"1",""
+"1","                   (0.005)    
+"
+"1",""
+"1","  premium_dummy    -0.181***  
+"
+"1",""
+"1","                   (0.008)    
+"
+"1",""
+"1","------------------------------
+"
+"1",""
+"1","  R-squared         0.544     
+"
+"1",""
+"1","  N              6195         
+"
+"1",""
+"1","==============================
+"
+"1",""
+"1","  Significance:   
+"
+"1",""
+"1","                *** = p < 0.001;   
+"
+"1",""
+"1","                ** = p < 0.01;   
+"
+"1",""
+"1","                * = p < 0.05  
+"

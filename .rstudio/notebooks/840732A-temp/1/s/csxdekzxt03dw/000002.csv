@@ -1,0 +1,4 @@
+"0","```r
+ggcorr(df_red, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
+    theme(legend.position  = 'left')
+```"

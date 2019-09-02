@@ -1,0 +1,6 @@
+"0","ggplot(data=dados,"
+"0","       aes(x=price, y=predict(m9))) +"
+"0","    geom_point() +"
+"0","    geom_smooth(method = ""lm"") +"
+"0","    ggtitle('Figura 18. Gráfico dos valores observados versus valores preditos e equação do \nmodelo')"
+"0",""
