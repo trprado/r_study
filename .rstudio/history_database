@@ -11510,3 +11510,368 @@
 1567428269506:var(df_comp$price)
 1567428278346:var(log10(df_comp$price))
 1567429368443:getwd()
+1567432460068:# install.packages("janitor")
+1567432460071:library(knitr)
+1567432460078:library(dplyr)
+1567432460079:library(tidyr)
+1567432460081:library(lubridate)
+1567432460083:library(ggplot2)
+1567432460085:library(grid)
+1567432460088:library(gridExtra)
+1567432460091:library(GGally)
+1567432460093:library(scales)
+1567432460095:library(memisc)
+1567432460097:library(psych)
+1567432460099:opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, cache = TRUE, fig.align = 'center', fig.width = 10, fig.height = 10)
+1567432463603:df_comp <- read.csv('Computers.csv')[,c(-1, -10)]
+1567432463635:df_comp <- tbl_df(df_comp)
+1567432464676:df_comp$date <- as.Date('1993-01-01')
+1567432464699:month(df_comp$date) <- ifelse(df_comp$trend > 1, month(df_comp$date) + df_comp$trend - 1, month(df_comp$date))
+1567432464736:df_comp[1:5,]
+1567432464745:dim(df_comp)
+1567432464749:str(df_comp)
+1567432464779:summary(df_comp)
+1567432478952:unique(year(df_comp$date))
+1567432498952:length(unique(year(df_comp$date)))
+1567432522118:maximos_ano('screen')
+1567432529690:maximos_ano <- function(coluna) {
+1567432529692:# Retorna os máximos valores da coluna desejada por ano.
+1567432529693:maximos<-NULL
+1567432529695:for(i in 1:length(unique(year(df_comp$date)))){
+1567432529696:maximos[i]<-names(which(by(df_comp$coluna, year(df_comp$date), table)[[i]] == lapply(by(df_comp$coluna, year(df_comp$date), table), max)[[i]]))
+1567432529698:}
+1567432529699:return(maximos)
+1567432529700:}
+1567432530970:maximos_ano('screen')
+1567432581384:maximos_ano(screen)
+1567432587034:maximos_ano <- function(coluna) {
+1567432587036:# Retorna os máximos valores da coluna desejada por ano.
+1567432587038:maximos<-NULL
+1567432587041:for(i in 1:length(unique(year(df_comp$date)))){
+1567432587045:maximos[i]<-names(which(by(df_comp$coluna, year(df_comp$date), table)[[i]] == lapply(by(df_comp$coluna, year(df_comp$date), table), max)[[i]]))
+1567432587047:}
+1567432587048:return(maximos)
+1567432587049:}
+1567432588663:maximos_ano(screen)
+1567432612199:1:length(unique(year(df_comp$date)))
+1567432628799:df_comp$coluna
+1567432654546:return(maximos)
+1567432661623:maximos_ano <- function(coluna) {
+1567432661624:# Retorna os máximos valores da coluna desejada por ano.
+1567432661626:maximos<-NULL
+1567432661628:for(i in 1:length(unique(year(df_comp$date)))){
+1567432661629:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432661631:}
+1567432661634:return(maximos)
+1567432661636:}
+1567432670869:maximos_ano(df_comp$screen)
+1567432821504:maximos_ano <- function(coluna) {
+1567432821506:# Retorna os máximos valores da coluna desejada por ano.
+1567432821508:maximos<-NULL
+1567432821510:for(i in 1:length(unique(year(df_comp$date)))){
+1567432821512:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432821514:}
+1567432821516:return(maximos)
+1567432821521:cat('Maximos valores para os anos de ', unique(year(df_comp$date)),'da variável', coluna, ': '  return(maximos))
+1567432840765:maximos_ano <- function(coluna) {
+1567432840767:# Retorna os máximos valores da coluna desejada por ano.
+1567432840768:maximos<-NULL
+1567432840769:for(i in 1:length(unique(year(df_comp$date)))){
+1567432840770:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432840772:}
+1567432840773:return(maximos)
+1567432840775:cat('Maximos valores para os anos de ', unique(year(df_comp$date)),'da variável', coluna, ': ' maximos)
+1567432859934:maximos_ano <- function(coluna) {
+1567432859936:# Retorna os máximos valores da coluna desejada por ano.
+1567432859937:maximos<-NULL
+1567432859939:for(i in 1:length(unique(year(df_comp$date)))){
+1567432859940:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432859942:}
+1567432859944:cat('Maximos valores para os anos de ', unique(year(df_comp$date)),'da variável', coluna, ': ')
+1567432859946:return(maximos)
+1567432859949:}
+1567432863014:maximos_ano(df_comp$screen)
+1567432886641:names(coluna)
+1567432890678:maximos_ano <- function(coluna) {
+1567432890680:# Retorna os máximos valores da coluna desejada por ano.
+1567432890681:maximos<-NULL
+1567432890682:for(i in 1:length(unique(year(df_comp$date)))){
+1567432890684:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432890685:}
+1567432890686:cat('Maximos valores para os anos de ', unique(year(df_comp$date)),'da variável', names(coluna), ': ')
+1567432890688:return(maximos)
+1567432890689:}
+1567432892537:maximos_ano(df_comp$screen)
+1567432907238:cat('Maximos valores para os anos de ', unique(year(df_comp$date)),'da variável', colname(coluna), ': ')
+1567432908915:maximos_ano <- function(coluna) {
+1567432908917:# Retorna os máximos valores da coluna desejada por ano.
+1567432908919:maximos<-NULL
+1567432908920:for(i in 1:length(unique(year(df_comp$date)))){
+1567432908921:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432908922:}
+1567432908923:cat('Maximos valores para os anos de ', unique(year(df_comp$date)),'da variável', colname(coluna), ': ')
+1567432908924:return(maximos)
+1567432908926:}
+1567432910722:maximos_ano(df_comp$screen)
+1567432918453:maximos_ano <- function(coluna) {
+1567432918454:# Retorna os máximos valores da coluna desejada por ano.
+1567432918456:maximos<-NULL
+1567432918457:for(i in 1:length(unique(year(df_comp$date)))){
+1567432918460:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432918461:}
+1567432918463:cat('Maximos valores para os anos de ', unique(year(df_comp$date)),'da variável', colnames(coluna), ': ')
+1567432918465:return(maximos)
+1567432918466:}
+1567432919932:maximos_ano(df_comp$screen)
+1567432955037:maximos_ano <- function(coluna) {
+1567432955039:# Retorna os máximos valores da coluna desejada por ano.
+1567432955041:maximos<-NULL
+1567432955043:for(i in 1:length(unique(year(df_comp$date)))){
+1567432955045:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432955047:}
+1567432955048:cat('Maximos valores para os anos de ', unique(year(df_comp$date)),'da variável', names(coluna), ': ', maximos)
+1567432955050:# return(maximos)
+1567432955052:}
+1567432956952:maximos_ano(df_comp$screen)
+1567432975994:maximos_ano <- function(coluna) {
+1567432975999:# Retorna os máximos valores da coluna desejada por ano.
+1567432976000:maximos<-NULL
+1567432976001:for(i in 1:length(unique(year(df_comp$date)))){
+1567432976007:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567432976008:}
+1567432976009:cat('Maximos valores para os anos de ', unique(year(df_comp$date)), ': ', maximos)
+1567432976011:# return(maximos)
+1567432976012:}
+1567432979415:maximos_ano(df_comp$screen)
+1567433002308:maximos_ano <- function(coluna) {
+1567433002309:# Retorna os máximos valores da coluna desejada por ano.
+1567433002310:maximos<-NULL
+1567433002311:for(i in 1:length(unique(year(df_comp$date)))){
+1567433002313:maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567433002314:}
+1567433002315:cat('Maximos valores para os anos de ', unique(year(df_comp$date)), ': ', maximos, ', respectivamente.')
+1567433002316:# return(maximos)
+1567433002318:}
+1567433003870:maximos_ano(df_comp$screen)
+1567433045173:colnames(df_comp$screen)
+1567433104494:colnames(df_comp$screen)[[1]]
+1567433115736:colnames(df_comp$screen[[1]])
+1567433182010:writeLines('Máximo valor por ano de screen:')
+1567433182381:maximos_ano(df_comp$screen)
+1567433220521:df_comp$'screen'
+1567433260529:maximos_ano <- function(coluna) {
+1567433260530:# Retorna os máximos valores da coluna desejada por ano.
+1567433260531:# maximos<-NULL
+1567433260532:# for(i in 1:length(unique(year(df_comp$date)))){
+1567433260534:#     maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567433260535:# }
+1567433260536:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), ': ', maximos, ', respectivamente.')
+1567433260538:cat(df_comp$coluna)
+1567433260539:# return(maximos)
+1567433260540:}
+1567433261559:maximos_ano('screen')
+1567433362125:# Retorna os máximos valores da coluna desejada por ano.
+1567433362128:# maximos<-NULL
+1567433362130:# for(i in 1:length(unique(year(df_comp$date)))){
+1567433362132:#     maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567433362133:# }
+1567433362135:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), ': ', maximos, ', respectivamente.')
+1567433362137:cat(selected_col)
+1567433367596:maximos_ano <- function(coluna) {
+1567433367597:selected_col <- df_comp %>% select(coluna)
+1567433367599:# Retorna os máximos valores da coluna desejada por ano.
+1567433367600:# maximos<-NULL
+1567433367601:# for(i in 1:length(unique(year(df_comp$date)))){
+1567433367603:#     maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567433367604:# }
+1567433367606:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), ': ', maximos, ', respectivamente.')
+1567433367607:cat(selected_col)
+1567433367609:# return(maximos)
+1567433367611:}
+1567433368535:maximos_ano('screen')
+1567433443115:maximos_ano <- function(coluna) {
+1567433443116:selected_col <- subset(df_comp, select = coluna)
+1567433443117:# Retorna os máximos valores da coluna desejada por ano.
+1567433443118:# maximos<-NULL
+1567433443119:# for(i in 1:length(unique(year(df_comp$date)))){
+1567433443121:#     maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567433443122:# }
+1567433443123:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), ': ', maximos, ', respectivamente.')
+1567433443124:cat(selected_col)
+1567433443126:# return(maximos)
+1567433443133:}
+1567433444023:maximos_ano('screen')
+1567433517528:maximos_ano <- function(coluna) {
+1567433517532:selected_col <- subset(df_comp, select = coluna)
+1567433517534:# Retorna os máximos valores da coluna desejada por ano.
+1567433517536:# maximos<-NULL
+1567433517539:# for(i in 1:length(unique(year(df_comp$date)))){
+1567433517542:#     maximos[i]<-names(which(by(coluna, year(df_comp$date), table)[[i]] == lapply(by(coluna, year(df_comp$date), table), max)[[i]]))
+1567433517544:# }
+1567433517545:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), ': ', maximos, ', respectivamente.')
+1567433517549:selected_col
+1567433517550:# return(maximos)
+1567433517552:}
+1567433517835:maximos_ano('screen')
+1567433557942:maximos_ano <- function(coluna) {
+1567433557949:# Retorna os máximos valores da coluna desejada por ano.
+1567433557954:selected_col <- subset(df_comp, select = coluna)
+1567433557955:maximos<-NULL
+1567433557957:for(i in 1:length(unique(year(df_comp$date)))){
+1567433557960:maximos[i]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567433557963:}
+1567433557965:cat('Maximos valores para os anos de ', unique(year(df_comp$date)), ': ', maximos, ', respectivamente.')
+1567433557966:# return(maximos)
+1567433557967:}
+1567433558693:maximos_ano('screen')
+1567433599422:maximos_ano <- function(coluna) {
+1567433599425:# Retorna os máximos valores da coluna desejada por ano.
+1567433599427:selected_col <- subset(df_comp, select = coluna)
+1567433599430:maximos<-NULL
+1567433599432:for(i in 1:length(unique(year(df_comp$date)))){
+1567433599435:maximos[i]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567433599438:}
+1567433599441:cat('Maximos valores para os anos de ', unique(year(df_comp$date)), 'para a variável ', names(selected_col), ': ', maximos, ', respectivamente.')
+1567433599443:# return(maximos)
+1567433599445:}
+1567433600628:maximos_ano('screen')
+1567433627692:names(df_comp)
+1567433645286:maximos_ano('speed')
+1567433646304:maximos_ano('hd')
+1567433667698:maximos_ano('ram')
+1567433668819:maximos_ano('screen')
+1567433674640:maximos_ano('speed')
+1567433674729:maximos_ano('hd')
+1567433674816:maximos_ano('ram')
+1567433674901:maximos_ano('screen')
+1567433718954:names(which(by(df_comp$hd, year(df_comp$date), table)[[1]] == lapply(by(df_comp$hd, year(df_comp$date), table), max)[[1]]))
+1567433720493:names(which(by(df_comp$hd, year(df_comp$date), table)[[2]] == lapply(by(df_comp$hd, year(df_comp$date), table), max)[[2]]))
+1567433725407:names(which(by(df_comp$hd, year(df_comp$date), table)[[3]] == lapply(by(df_comp$hd, year(df_comp$date), table), max)[[3]]))
+1567433727300:names(which(by(df_comp$hd, year(df_comp$date), table)[[2]] == lapply(by(df_comp$hd, year(df_comp$date), table), max)[[2]]))
+1567433755280:by(df_comp$hd, year(df_comp$date), table)
+1567433803373:maximos_ano('hd')
+1567433823044:names(which(by(df_comp$hd, year(df_comp$date), table)[[2]] == lapply(by(df_comp$hd, year(df_comp$date), table), max)[[2]]))
+1567433873470:maximos_ano <- function(coluna) {
+1567433873471:# Retorna os máximos valores da coluna desejada por ano.
+1567433873473:selected_col <- subset(df_comp, select = coluna)
+1567433873475:maximos<-list()
+1567433873479:for(i in 1:length(unique(year(df_comp$date)))){
+1567433873481:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567433873483:}
+1567433873486:maximos <- do.call('rbind', maximos)
+1567433873488:cat('Maximos valores para os anos de ', unique(year(df_comp$date)), 'para a variável ', names(selected_col), ': ', maximos, ', respectivamente.')
+1567433873490:# return(maximos)
+1567433873494:}
+1567433874080:maximos_ano('speed')
+1567433876874:maximos_ano('hd')
+1567433892695:names(which(by(df_comp$hd, year(df_comp$date), table)[[1]] == lapply(by(df_comp$hd, year(df_comp$date), table), max)[[1]]))
+1567433904309:by(df_comp$hd, year(df_comp$date), table)
+1567433939017:i=1
+1567433946439:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567433964161:names(which(by(df_comp$hd, year(df_comp$date), table)[[1]] == lapply(by(df_comp$hd, year(df_comp$date), table), max)[[1]]))
+1567433984686:selected_col<-df_comp$hd
+1567433985810:i=1
+1567433988583:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567433992629:maximos<-list()
+1567433997263:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567434002676:maximos
+1567434015153:i=2
+1567434015157:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567434019862:maximos
+1567434035051:i=3
+1567434035055:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567434038565:maximos
+1567434212229:maximos_ano <- function(coluna) {
+1567434212231:# Retorna os máximos valores da coluna desejada por ano.
+1567434212233:selected_col <- subset(df_comp, select = coluna)
+1567434212234:maximos<-list()
+1567434212236:for(i in 1:length(unique(year(df_comp$date)))){
+1567434212243:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567434212247:}
+1567434212251:writeLines('Máximos por', names(selected_col))
+1567434212253:cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434212254:# maximos <- do.call('rbind', maximos)
+1567434212259:# for(i in 1:length(maximos)) {
+1567434212260:#     writeLines('Máximos por', names(selected_col))
+1567434212262:#     cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434212263:# }
+1567434212268:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), 'para a variável ', names(selected_col), ': ', maximos, ', respectivamente.')
+1567434212270:# return(maximos)
+1567434212272:}
+1567434213744:maximos_ano('speed')
+1567434268237:maximos_ano <- function(coluna) {
+1567434268240:# Retorna os máximos valores da coluna desejada por ano.
+1567434268243:selected_col <- subset(df_comp, select = coluna)
+1567434268246:maximos<-list()
+1567434268251:writeLines('Máximos por', names(selected_col))
+1567434268252:for(i in 1:length(unique(year(df_comp$date)))){
+1567434268254:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567434268257:cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434268259:}
+1567434268262:writeLines('Máximos por', names(selected_col))
+1567434268264:cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434268265:# maximos <- do.call('rbind', maximos)
+1567434268269:# for(i in 1:length(maximos)) {
+1567434268270:#     writeLines('Máximos por', names(selected_col))
+1567434268272:#     cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434268273:# }
+1567434268278:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), 'para a variável ', names(selected_col), ': ', maximos, ', respectivamente.')
+1567434268280:# return(maximos)
+1567434268282:}
+1567434268916:maximos_ano('speed')
+1567434281407:maximos_ano <- function(coluna) {
+1567434281409:# Retorna os máximos valores da coluna desejada por ano.
+1567434281411:selected_col <- subset(df_comp, select = coluna)
+1567434281413:maximos<-list()
+1567434281417:writeLines('Máximos por', names(selected_col))
+1567434281419:for(i in 1:length(unique(year(df_comp$date)))){
+1567434281420:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567434281424:cat(unique(year(df_comp$date))[i], ':', maximos[[i]])
+1567434281426:}
+1567434281430:writeLines('Máximos por', names(selected_col))
+1567434281431:cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434281433:# maximos <- do.call('rbind', maximos)
+1567434281437:# for(i in 1:length(maximos)) {
+1567434281441:#     writeLines('Máximos por', names(selected_col))
+1567434281443:#     cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434281445:# }
+1567434281446:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), 'para a variável ', names(selected_col), ': ', maximos, ', respectivamente.')
+1567434281449:# return(maximos)
+1567434281451:}
+1567434282229:maximos_ano('speed')
+1567434319183:maximos_ano <- function(coluna) {
+1567434319184:# Retorna os máximos valores da coluna desejada por ano.
+1567434319185:selected_col <- subset(df_comp, select = coluna)
+1567434319186:maximos<-list()
+1567434319189:cat('Máximos por', names(selected_col), '\n')
+1567434319189:for(i in 1:length(unique(year(df_comp$date)))){
+1567434319191:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567434319193:cat(unique(year(df_comp$date))[i], ':', maximos[[i]], '\n')
+1567434319194:}
+1567434319198:writeLines('Máximos por', names(selected_col))
+1567434319199:cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434319200:# maximos <- do.call('rbind', maximos)
+1567434319203:# for(i in 1:length(maximos)) {
+1567434319204:#     writeLines('Máximos por', names(selected_col))
+1567434319206:#     cat(unique(year(df_comp$date))[i], ':', maximos)
+1567434319207:# }
+1567434319209:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), 'para a variável ', names(selected_col), ': ', maximos, ', respectivamente.')
+1567434319211:# return(maximos)
+1567434319212:}
+1567434319842:maximos_ano('speed')
+1567434365019:maximos_ano <- function(coluna) {
+1567434365020:# Retorna os máximos valores da coluna desejada por ano.
+1567434365024:selected_col <- subset(df_comp, select = coluna)
+1567434365028:maximos<-list()
+1567434365052:cat('Máximos por', names(selected_col), '\n')
+1567434365056:for(i in 1:length(unique(year(df_comp$date)))){
+1567434365058:maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+1567434365062:cat(unique(year(df_comp$date))[i], ':', maximos[[i]], '\n')
+1567434365065:}
+1567434365068:# cat('Maximos valores para os anos de ', unique(year(df_comp$date)), 'para a variável ', names(selected_col), ': ', maximos, ', respectivamente.')
+1567434365070:# return(maximos)
+1567434365073:}
+1567434365794:maximos_ano('speed')
+1567434367440:maximos_ano('hd')
+1567434370097:maximos_ano('ram')
+1567434371826:maximos_ano('screen')

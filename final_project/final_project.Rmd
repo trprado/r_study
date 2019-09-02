@@ -118,6 +118,32 @@ by(df_comp$premium, year(df_comp$date), summary)
 round(do.call('rbind', by(df_comp$premium, year(df_comp$date), table)) / apply(do.call('rbind', by(df_comp$premium, year(df_comp$date), table)),1, sum), 4)
 ```
 
+```{r}
+# lapply(by(df_comp$screen, year(df_comp$date), table), max)[[1]][1]
+# 
+# names(which(by(df_comp$screen, year(df_comp$date), table)[[1]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[1]]))
+# names(which(by(df_comp$screen, year(df_comp$date), table)[[2]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[2]]))
+# names(which(by(df_comp$screen, year(df_comp$date), table)[[3]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[3]]))
+    
+maximos_ano <- function(coluna) {
+    # Retorna os máximos valores da coluna desejada por ano.
+    selected_col <- subset(df_comp, select = coluna)
+    maximos<-list()
+    
+    cat('Máximos por', names(selected_col), ':\n')
+    for(i in 1:length(unique(year(df_comp$date)))){
+        maximos[[i]]<-names(which(by(selected_col, year(df_comp$date), table)[[i]] == lapply(by(selected_col, year(df_comp$date), table), max)[[i]]))
+        
+        cat(unique(year(df_comp$date))[i], ':', maximos[[i]], '\n')
+    }
+}
+
+maximos_ano('speed')
+maximos_ano('hd')
+maximos_ano('ram')
+maximos_ano('screen')
+```
+
 ## Análise univariada
 ### Qual é a estrutura dos dados?
 Os dados analisados são provenientes do pacote Ecdat do software R (R Core Team, 2019). Eles correspondem às informações de vendas de computadores pessoais que ocorreram entre os períodos de Janeiro de 1993 até Novembro de 1995.
@@ -181,20 +207,6 @@ Foi criado *date* que contém a data catalogada do preço de cada computador, el
 Não foi incluso na análise a variável *ads* (número de vezes que o valor do produto foi listado por cada mês) pois foi considerada redundante para as análises. O ano de 1995 possui apenas dados até novembro, o que acaba não informando as vendas durante a época de festas de dezembro que poderia conter um maior número de vendas.
 
 Após criada a variável auxiliar *date* os dados possuíam dimensão de 6529 observações e 10 variáveis.
-
-```{r}
-# lapply(by(df_comp$screen, year(df_comp$date), table), max)[[1]][1]
-# 
-# names(which(by(df_comp$screen, year(df_comp$date), table)[[1]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[1]]))
-# names(which(by(df_comp$screen, year(df_comp$date), table)[[2]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[2]]))
-# names(which(by(df_comp$screen, year(df_comp$date), table)[[3]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[3]]))
-    
-# maximos<-NULL
-# for(i in 1:3){
-#     maximos[i]<-names(which(by(df_comp$screen, year(df_comp$date), table)[[i]] == lapply(by(df_comp$screen, year(df_comp$date), table), max)[[i]]))
-# }
-# maximos
-```
 
 ## Análise Bivariada
 ```{r Figura 1. Heatmap das correlações entre variáveis}
