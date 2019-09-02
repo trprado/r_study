@@ -1,8 +1,0 @@
-"0","ggplot(data = df_comp,"
-"0","       aes(x = date, y = price, color = premium)) +"
-"0","    geom_line(stat = 'summary', fun.y = median) +"
-"0","    scale_y_log10(breaks = seq(1000, 3000, 100)) +"
-"0","    scale_x_date(labels = date_format(""%b %y""), breaks = seq(from = as.Date(""1993-01-01""), to = as.Date(""1995-11-01""), by = ""months"")) +"
-"0","    theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +"
-"0","    labs(color = 'Premium') +"
-"0","    ggtitle('Figura 9. Gráfico de tendencia entre log10(price) e meses durante os \nanos de 1993 até 1995 para computadores com ou sem marca')"

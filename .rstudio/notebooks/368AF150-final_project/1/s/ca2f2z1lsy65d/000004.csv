@@ -1,5 +1,0 @@
-"0","ggcorr(df_comp, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +"
-"0","    theme(legend.position  = 'left') +"
-"0","    ggtitle('Figura 1. Heatmap das correlações entre variáveis')"
-"2","data in column(s) 'cd', 'multi', 'premium', 'date' are not numeric and were ignored"
-"2","Unknown palette div"

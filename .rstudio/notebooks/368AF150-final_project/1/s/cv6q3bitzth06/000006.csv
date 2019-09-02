@@ -1,9 +1,0 @@
-"0","fit.model<-m9"
-"0","attach(dados)"
-"2","The following objects are masked _by_ .GlobalEnv:
-
-    cd_dummy, multi_dummy, premium_dummy
-
-"
-"0","source(""https://www.ime.usp.br/~giapaula/envel_norm"")"
-"0",""

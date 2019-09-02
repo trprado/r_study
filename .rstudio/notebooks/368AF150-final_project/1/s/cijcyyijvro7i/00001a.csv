@@ -1,7 +1,0 @@
-"0","ggplot(data = df_comp,"
-"0","       aes(x = as.factor(ram), y = hd, color = as.factor(year(date)))) +"
-"0","    geom_boxplot() +"
-"0","    labs(color = 'Year') +"
-"0","    xlab('RAM') +"
-"0","    ylab('HD') +"
-"0","    ggtitle('Figura 14.  Boxplot memória RAM por tamanho HD entre 1993 até 1995')"

@@ -1,8 +1,0 @@
-"0","ggplot(data = df_comp,"
-"0","       aes(x = as.factor(hd), y = price)) +"
-"0","    geom_boxplot() +"
-"0","    scale_y_log10(breaks = seq(0, 5000, 1000)) +"
-"0","    xlab('HD (MB)') +"
-"0","    facet_wrap(~year(date), ncol = 1, scales = 'free') +"
-"0","    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +"
-"0","    ggtitle('Figura 13. Boxplot de log10(price) por HDs por anos de 1993 até 1995')"

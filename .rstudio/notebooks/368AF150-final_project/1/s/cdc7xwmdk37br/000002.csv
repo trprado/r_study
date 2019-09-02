@@ -1,5 +1,0 @@
-"0","# ggplot(data = df_comp,"
-"0","#        aes(x = hd)) +"
-"0","#     geom_histogram(binwidth = 50) +"
-"0","#     scale_x_continuous(limits = c(80, 2100), breaks = seq(80, 2100, 100)) +"
-"0","#     theme(axis.text.x = element_text(angle = 45, hjust = 1))"

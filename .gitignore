@@ -37,3 +37,10 @@ vignettes/*.pdf
 
 # Environment file
 .env
+
+# Others
+.password
+.Rhistory
+.rstudio
+.cargo
+.config

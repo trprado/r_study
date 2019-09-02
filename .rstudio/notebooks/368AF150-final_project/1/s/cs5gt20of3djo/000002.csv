@@ -1,2 +1,0 @@
-"0","df_comp <- read.csv('Computers.csv')[,c(-1, -10)]"
-"0","df_comp <- tbl_df(df_comp)"

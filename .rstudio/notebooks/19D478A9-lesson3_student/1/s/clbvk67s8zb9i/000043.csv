@@ -1,9 +1,0 @@
-"0","ggplot(aes(x = www_likes, y = ..density..), data = subset(df, !is.na(gender))) +
-  geom_freqpoly(aes(color = gender)) +
-  scale_x_continuous() +
-  scale_x_log10() +
-  xlab('Like counts') +
-  ylab('Percentage of users with that like counts')
-"
-"2","Scale for 'x' is already present. Adding another scale for 'x', which will replace the existing scale.
-"

@@ -1,7 +1,0 @@
-"0","ggplot(data = df_comp,"
-"0","       aes(x = cd, y = price, color = multi)) +"
-"0","    geom_boxplot() +"
-"0","    scale_y_log10() +"
-"0","    labs(color = 'Kit Multimídia') +"
-"0","    facet_grid(~premium) +"
-"0","    ggtitle('Figura 15. Boxplot de log10(price) por existencia de CDROM entre \ncomputadores premium ou não')"

@@ -1,4 +1,0 @@
-"0","# install.packages('ggpubr')"
-"0","# library(ggpubr)"
-"0","# ggqqplot(log10(df_comp$price))"
-"0","# ks.test(df_comp$price, pnorm, mean(df_comp$price), sd(df_comp$price))"

@@ -1,5 +1,0 @@
-"0","qplot(x = age, y = friend_count, data = df)
-***
-"
-"2","Error: unexpected '^' in ""**""
-"

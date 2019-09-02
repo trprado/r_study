@@ -1,4 +1,0 @@
-"0","```r
-ggcorr(df_wine, label = TRUE, hjust= 0.80, size = 5, nbreaks = 5, palette = 'div') +
-    theme(legend.position  = 'left')
-```"

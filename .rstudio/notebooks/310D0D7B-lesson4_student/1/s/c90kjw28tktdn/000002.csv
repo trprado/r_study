@@ -1,5 +1,0 @@
-"0","pdf$age_with_months <- with(df, age + (1 - dob_month / 12))
-"
-"2","Error in pdf$age_with_months <- with(df, age + (1 - dob_month/12)) : 
-  object of type 'closure' is not subsettable
-"
